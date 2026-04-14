@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnUp - Platforma Kursów Online</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+
+    
+    [data-theme="dark"] {
+      --bg: #0f0f13;
+      --bg2: #16161d;
+      --bg3: #1e1e28;
+      --text: #f0f0f5;
+      --text-soft: #9898a8;
+      --accent: #7c5cfc;
+      --accent2: #ff6b6b;
+      --card: #1a1a24;
+      --border: #2a2a38;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f5fa;
+      --bg2: #ffffff;
+      --bg3: #eaeaf5;
+      --text: #111118;
+      --text-soft: #666678;
+      --accent: #6244e8;
+      --accent2: #e84444;
+      --card: #ffffff;
+      --border: #dddde8;
+    }
+
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Syne', sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Logo */
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .logo span {
+      color: var(--text);
+    }
+
+  
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+  
+    .nav-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+
+    .theme-btn {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .theme-btn:hover {
+      background: var(--border);
+    }
+
+    /* cta w navie */
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    /* hamburger na tel */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      transition: all 0.3s;
+    }
+
+    /* animka  */
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+  
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-soft);
+      font-size: 1rem;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    /*  */
+
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 40px 80px;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .highlight {
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 11px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    
+    .hero-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      width: 340px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+    }
+
+    .hero-card-stat {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .stat-box .label {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .course-preview {
+      background: var(--bg3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .course-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .course-preview h4 {
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* o nas*/
+
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .section > p {
+      color: var(--text-soft);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+  
+    .about-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      flex: 1;
+      min-width: 220px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .about-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .about-card .icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .about-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .about-card p {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    /*oferty */
+
+    .offers-bg {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .offer-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      /* animka scroll*/
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .offer-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 60px rgba(124, 92, 252, 0.15);
+    }
+
+    .offer-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .tag-beginner { background: rgba(124,252,100,0.15); color: #7afc64; }
+    .tag-mid      { background: rgba(124,92,252,0.15);  color: #a07afc; }
+    .tag-adv      { background: rgba(255,107,107,0.15); color: #ff8080; }
+
+    .offer-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .offer-card p {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .offer-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .offer-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* kontakt */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .contact-info p {
+      color: var(--text-soft);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    .contact-detail .ico {
+      font-size: 1.2rem;
+    }
+
+    /* formularz */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+
+    input, textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* komunikat */
+    .form-msg {
+      font-size: 0.85rem;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .form-msg.error {
+      background: rgba(255,107,107,0.15);
+      color: #ff8080;
+      border: 1px solid rgba(255,107,107,0.3);
+      display: block;
+    }
+
+    .form-msg.success {
+      background: rgba(124,252,100,0.15);
+      color: #7afc64;
+      border: 1px solid rgba(124,252,100,0.3);
+      display: block;
+    }
+
+  
+
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 48px 40px 28px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand p {
+      color: var(--text-soft);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      max-width: 260px;
+      line-height: 1.6;
+    }
+
+    .footer-links h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 16px;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    /* respo */
+
+    /* Breakpoint 1*/
+    @media (max-width: 900px) {
+
+      header {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        padding: 20px;
+      }
+
+      .hero {
+        flex-direction: column;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .hero p {
+        margin: 0 auto 36px;
+      }
+
+      .hero-btns {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        width: 100%;
+      }
+
+      .hero-card {
+        width: 100%;
+        max-width: 380px;
+      }
+
+      .offers-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 60px 20px;
+      }
+    }
+
+    /* Breakpoint 2 tel  */
+    @media (max-width: 600px) {
+
+      .offers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-grid {
+        flex-direction: column;
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+
+      .nav-right .btn-primary {
+        display: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  
+  <header>
+    <nav>
+      
+      <div class="logo">Learn<span>Up</span></div>
+      <ul class="nav-links">
+        <li><a href="#o-nas">O nas</a></li>
+        <li><a href="#oferta">Kursy</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="theme-btn" onclick="toggleTheme()" title="Zmień motyw">🌙</button>
+        <button class="btn-primary">Zacznij za darmo</button>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#o-nas" onclick="closeMenu()">O nas</a>
+      <a href="#oferta" onclick="closeMenu()">Kursy</a>
+      <a href="#kontakt" onclick="closeMenu()">Kontakt</a>
+    </div>
+  </header>
+
+
+  
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">🚀 Platforma kursów online</div>
+      <h1>Ucz się nowych<br><span class="highlight">umiejętności</span><br>z najlepszymi</h1>
+      <p>LearnUp to platforma, która łączy Cię z ekspertami z całego świata. Programowanie, design, marketing - wszystko w jednym miejscu.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Rozpocznij naukę</button>
+        <button class="btn-outline" onclick="document.getElementById('oferta').scrollIntoView({behavior:'smooth'})">Zobacz kursy</button>
+      </div>
+    </div>
+
+  
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-stat">
+          <div class="stat-box">
+            <div class="num">200+</div>
+            <div class="label">Kursów</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">15k</div>
+            <div class="label">Uczniów</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">4.9⭐</div>
+            <div class="label">Ocena</div>
+          </div>
+        </div>
+
+        <div class="course-preview">
+          <div class="course-icon" style="background: rgba(124,92,252,0.2);">💻</div>
+          <div style="flex:1">
+            <h4>JavaScript dla początkujących</h4>
+            <div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div>
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-soft)">65%</div>
+        </div>
+
+        <div class="course-preview">
+          <div class="course-icon" style="background: rgba(255,107,107,0.2);">🎨</div>
+          <div style="flex:1">
+            <h4>UI/UX Design – podstawy</h4>
+            <div class="progress-bar"><div class="progress-fill" style="width: 30%; background: var(--accent2)"></div></div>
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-soft)">30%</div>
+        </div>
+
+        <div class="course-preview">
+          <div class="course-icon" style="background: rgba(100,252,180,0.2);">📊</div>
+          <div style="flex:1">
+            <h4>Python i analiza danych</h4>
+            <div class="progress-bar"><div class="progress-fill" style="width: 85%; background: #64fcb4"></div></div>
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-soft)">85%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  
+  <section class="section" id="o-nas">
+    <div class="section-label">O nas</div>
+    <h2>Dlaczego warto wybrać LearnUp?</h2>
+    <p>Tworzymy środowisko, w którym każdy może rozwijać swoje pasje i budować karierę marzeń — bez wychodzenia z domu.</p>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="icon">🎯</div>
+        <h3>Spersonalizowane kursy</h3>
+        <p>System rekomenduje kursy dopasowane do Twojego poziomu i celów. Nie tracisz czasu na rzeczy, które już znasz.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">👨‍🏫</div>
+        <h3>Eksperci z branży</h3>
+        <p>Uczymy od praktyków — ludzi, którzy na co dzień pracują w największych firmach technologicznych na świecie.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">🏆</div>
+        <h3>Certyfikaty uznawane</h3>
+        <p>Po ukończeniu kursu otrzymujesz certyfikat, który możesz dodać do swojego CV i profilu na LinkedIn.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">💬</div>
+        <h3>Społeczność 24/7</h3>
+        <p>Dołącz do tysięcy uczących się. Pytaj, dyskutuj, pomagaj innym — razem uczymy się szybciej.</p>
+      </div>
+    </div>
+  </section>
+
+
+  
+  <div class="offers-bg">
+    <section class="section" id="oferta">
+      <div class="section-label">Oferta</div>
+      <h2>Popularne kursy</h2>
+      <p>Wybierz kurs dopasowany do swojego poziomu i zacznij naukę już dziś.</p>
+
+      <div class="offers-grid">
+
+        <div class="offer-card">
+          <span class="offer-tag tag-beginner">Początkujący</span>
+          <h3>HTML & CSS — od zera do bohatera</h3>
+          <p>Zbuduj swoją pierwszą stronę internetową. Poznaj strukturę HTML i stylowanie CSS bez wcześniejszej wiedzy.</p>
+          <div class="offer-meta">
+            <span>⏱ 12h · 48 lekcji</span>
+            <span class="offer-price">149 zł</span>
+          </div>
+        </div>
+
+        <div class="offer-card">
+          <span class="offer-tag tag-beginner">Początkujący</span>
+          <h3>JavaScript — interaktywne strony</h3>
+          <p>Naucz się JavaScript od podstaw. Zmienne, funkcje, DOM, eventy i pierwsza aplikacja.</p>
+          <div class="offer-meta">
+            <span>⏱ 18h · 72 lekcje</span>
+            <span class="offer-price">199 zł</span>
+          </div>
+        </div>
+
+        <div class="offer-card">
+          <span class="offer-tag tag-mid">Średni</span>
+          <h3>React.js — nowoczesny frontend</h3>
+          <p>Twórz dynamiczne aplikacje webowe z najpopularniejszą biblioteką JavaScript na świecie.</p>
+          <div class="offer-meta">
+            <span>⏱ 22h · 90 lekcji</span>
+            <span class="offer-price">299 zł</span>
+          </div>
+        </div>
+
+        <div class="offer-card">
+          <span class="offer-tag tag-mid">Średni</span>
+          <h3>Python — analiza danych</h3>
+          <p>Pandas, NumPy, matplotlib. Przetwarzaj dane i twórz wizualizacje jak profesjonalista.</p>
+          <div class="offer-meta">
+            <span>⏱ 20h · 80 lekcji</span>
+            <span class="offer-price">249 zł</span>
+          </div>
+        </div>
+
+        <div class="offer-card">
+          <span class="offer-tag tag-adv">Zaawansowany</span>
+          <h3>Node.js & REST API</h3>
+          <p>Buduj serwery i API od podstaw. Express, bazy danych, autoryzacja JWT i deployment.</p>
+          <div class="offer-meta">
+            <span>⏱ 25h · 100 lekcji</span>
+            <span class="offer-price">349 zł</span>
+          </div>
+        </div>
+
+        <div class="offer-card">
+          <span class="offer-tag tag-adv">Zaawansowany</span>
+          <h3>UI/UX Design — Figma Pro</h3>
+          <p>Projektuj piękne interfejsy. Wireframing, prototypy, design system i prezentacja klientowi.</p>
+          <div class="offer-meta">
+            <span>⏱ 16h · 64 lekcje</span>
+            <span class="offer-price">279 zł</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+
+  
+  <section class="section" id="kontakt">
+    <div class="contact-grid">
+
+      <div class="contact-info">
+        <div class="section-label">Kontakt</div>
+        <h2>Masz pytania?<br>Napisz do nas!</h2>
+        <p>Nasz zespół odpowiada w ciągu 24 godzin roboczych. Pomożemy wybrać kurs dopasowany do Twoich potrzeb.</p>
+
+        <div class="contact-detail">
+          <span class="ico">📧</span>
+          <span>kontakt@learnup.pl</span>
+        </div>
+        <div class="contact-detail">
+          <span class="ico">📞</span>
+          <span>+48 123 456 789</span>
+        </div>
+        <div class="contact-detail">
+          <span class="ico">📍</span>
+          <span>ul. Cyfrowa 12, Warszawa</span>
+        </div>
+      </div>
+
+      
+      <form id="contactForm" onsubmit="validateForm(event)">
+
+        <div class="form-group">
+          <label for="name">Imię i nazwisko *</label>
+          <input type="text" id="name" placeholder="Jan Kowalski">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" placeholder="jan@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="topic">Temat</label>
+          <input type="text" id="topic" placeholder="Pytanie o kurs JavaScript">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Wiadomość *</label>
+          <textarea id="message" placeholder="Opisz swoje pytanie lub potrzeby..."></textarea>
+        </div>
+
+        
+        <div class="form-msg" id="formMsg"></div>
+
+        <button type="submit" class="btn-primary" style="width:100%; padding:14px;">
+          Wyślij wiadomość →
+        </button>
+
+      </form>
+    </div>
+  </section>
+
+
+  
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <div class="logo">Learn<span>Up</span></div>
+          <p>Platforma, która pomaga Ci rozwijać umiejętności i budować lepszą przyszłość.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Platforma</h4>
+          <ul>
+            <li><a href="#oferta">Kursy</a></li>
+            <li><a href="#o-nas">O nas</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Kursy</h4>
+          <ul>
+            <li><a href="#">HTML & CSS</a></li>
+            <li><a href="#">JavaScript</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">React</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Pomoc</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Regulamin</a></li>
+            <li><a href="#">Polityka prywatności</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        © 2025 LearnUp. Projekt edukacyjny. Wszelkie prawa zastrzeżone.
+      </div>
+    </div>
+  </footer>
+
+
+  
+  <script>
+
+    
+
+    function toggleTheme() {
+      let aktualnyMotyw = document.documentElement.getAttribute('data-theme');
+      let przycisk = document.querySelector('.theme-btn');
+
+      if (aktualnyMotyw === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        przycisk.textContent = '🌙';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        przycisk.textContent = '☀️';
+      }
+    }
+
+
+    
+
+    function toggleMenu() {
+      let hamburger = document.getElementById('hamburger');
+      let mobileMenu = document.getElementById('mobileMenu');
+
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    }
+
+    function closeMenu() {
+      document.getElementById('hamburger').classList.remove('open');
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+
+    function validateForm(event) {
+      event.preventDefault();
+
+      let name    = document.getElementById('name').value.trim();
+      let email   = document.getElementById('email').value.trim();
+      let message = document.getElementById('message').value.trim();
+
+      let msg = document.getElementById('formMsg');
+
+
+      if (name === '' || email === '' || message === '') {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Uzupełnij wszystkie wymagane pola (oznaczone *)';
+        return;
+      }
+
+      
+      if (!email.includes('@') || !email.includes('.')) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Podaj prawidłowy adres email.';
+        return;
+      }
+
+      msg.className = 'form-msg success';
+      msg.textContent = '✅ Wiadomość wysłana! Odpiszemy w ciągu 24 godzin.';
+
+      document.getElementById('contactForm').reset();
+    }
+
+
+    let obserwator = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1  
+    });
+
+  
+    document.querySelectorAll('.offer-card').forEach(function(karta) {
+      obserwator.observe(karta);
+    });
+
+    document.querySelectorAll('.about-card').forEach(function(karta) {
+      karta.style.opacity = '0';
+      karta.style.transform = 'translateY(20px)';
+      karta.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.2s';
+      obserwator.observe(karta);
+    });
+
+    obserwator = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.offer-card, .about-card').forEach(function(el) {
+      obserwator.observe(el);
+    });
+
+  </script>
+
+</body>
+</html>
