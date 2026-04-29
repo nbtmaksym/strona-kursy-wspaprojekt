@@ -1,2 +1,10 @@
 .DS_Store
 Thumbs.db
+
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/learnup.db
+
+# Node (jeśli pojawi się później)
+node_modules/

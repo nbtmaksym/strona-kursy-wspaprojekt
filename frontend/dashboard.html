@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — LearnUp</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html" class="logo">Learn<span>Up</span></a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link active">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="sidebar-link">
+          <span class="sidebar-icon">📚</span> Moje kursy
+        </a>
+        <a href="kursy.html" class="sidebar-link">
+          <span class="sidebar-icon">🔍</span> Znajdź kurs
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-icon">🏆</span> Certyfikaty
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> Ustawienia
+        </a>
+        <a href="login.html" class="sidebar-link" style="margin-top:auto">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-content">
+
+      <div class="dashboard-header">
+        <div>
+          <h1>Cześć, Jan! 👋</h1>
+          <p>Kontynuuj naukę tam gdzie skończyłeś.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="theme-btn" id="themeBtn">🌙</button>
+          <div class="user-avatar">JK</div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-value">3</div>
+          <div class="stat-name">Aktywne kursy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value">1</div>
+          <div class="stat-name">Ukończone kursy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏱</div>
+          <div class="stat-value">24h</div>
+          <div class="stat-name">Czas nauki</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-value">1</div>
+          <div class="stat-name">Certyfikaty</div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Kontynuuj naukę</h2>
+      <div class="dashboard-courses">
+
+        <div class="dashboard-course-card">
+          <h4>JavaScript — interaktywne strony</h4>
+          <p class="course-meta">⏱ 18h · Lekcja 47 z 72</p>
+          <div class="progress-label">
+            <span>Postęp</span>
+            <span>65%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:65%"></div>
+          </div>
+          <br>
+          <a href="#" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">Kontynuuj →</a>
+        </div>
+
+        <div class="dashboard-course-card">
+          <h4>UI/UX Design – podstawy</h4>
+          <p class="course-meta">⏱ 16h · Lekcja 19 z 64</p>
+          <div class="progress-label">
+            <span>Postęp</span>
+            <span>30%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:30%;background:var(--accent2)"></div>
+          </div>
+          <br>
+          <a href="#" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">Kontynuuj →</a>
+        </div>
+
+        <div class="dashboard-course-card">
+          <h4>Python i analiza danych</h4>
+          <p class="course-meta">⏱ 20h · Lekcja 68 z 80</p>
+          <div class="progress-label">
+            <span>Postęp</span>
+            <span>85%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:85%;background:#64fcb4"></div>
+          </div>
+          <br>
+          <a href="#" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">Kontynuuj →</a>
+        </div>
+
+      </div>
+
+      <h2 class="section-title">Ukończone kursy</h2>
+      <div class="dashboard-courses">
+        <div class="dashboard-course-card">
+          <h4>HTML & CSS — od zera do bohatera</h4>
+          <p class="course-meta">✅ Ukończono · 48 lekcji</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:100%;background:#64fcb4"></div>
+          </div>
+          <br>
+          <a href="#" class="btn-outline" style="font-size:0.85rem;padding:8px 16px">Pobierz certyfikat 🏆</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

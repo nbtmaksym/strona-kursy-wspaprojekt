@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Użytkownicy — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link active">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+        <a href="../login.html" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1>Zarządzanie użytkownikami</h1>
+          <p>Lista wszystkich zarejestrowanych użytkowników</p>
+        </div>
+        <button class="theme-btn" id="themeBtn">🌙</button>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Szukaj użytkownika..." oninput="filterUsers()">
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">
+          <h3>Wszyscy użytkownicy</h3>
+          <span style="color:var(--text-soft);font-size:0.9rem">1 284 użytkowników</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Imię i nazwisko</th>
+              <th>Email</th>
+              <th>Rola</th>
+              <th>Data rejestracji</th>
+              <th>Status</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody id="usersTable">
+            <tr>
+              <td>Jan Kowalski</td>
+              <td>jan@example.com</td>
+              <td><span class="status status-admin">Admin</span></td>
+              <td>2024-10-01</td>
+              <td><span class="status status-active">Aktywny</span></td>
+              <td class="td-actions">
+                <button class="btn-danger" onclick="deleteUser(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Anna Nowak</td>
+              <td>anna@example.com</td>
+              <td><span class="status" style="background:rgba(152,152,168,0.15);color:var(--text-soft)">Użytkownik</span></td>
+              <td>2025-01-14</td>
+              <td><span class="status status-active">Aktywny</span></td>
+              <td class="td-actions">
+                <button class="btn-danger" onclick="deleteUser(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Piotr Wiśniewski</td>
+              <td>piotr@example.com</td>
+              <td><span class="status" style="background:rgba(152,152,168,0.15);color:var(--text-soft)">Użytkownik</span></td>
+              <td>2025-01-13</td>
+              <td><span class="status status-inactive">Nieaktywny</span></td>
+              <td class="td-actions">
+                <button class="btn-danger" onclick="deleteUser(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Marta Kowalczyk</td>
+              <td>marta@example.com</td>
+              <td><span class="status" style="background:rgba(152,152,168,0.15);color:var(--text-soft)">Użytkownik</span></td>
+              <td>2025-01-10</td>
+              <td><span class="status status-active">Aktywny</span></td>
+              <td class="td-actions">
+                <button class="btn-danger" onclick="deleteUser(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Tomasz Zając</td>
+              <td>tomasz@example.com</td>
+              <td><span class="status" style="background:rgba(152,152,168,0.15);color:var(--text-soft)">Użytkownik</span></td>
+              <td>2025-01-08</td>
+              <td><span class="status status-active">Aktywny</span></td>
+              <td class="td-actions">
+                <button class="btn-danger" onclick="deleteUser(this)">Usuń</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function filterUsers() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#usersTable tr');
+      rows.forEach(function(row) {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+    function deleteUser(btn) {
+      if (confirm('Na pewno chcesz usunąć tego użytkownika?')) {
+        btn.closest('tr').remove();
+      }
+    }
+  </script>
+</body>
+</html>

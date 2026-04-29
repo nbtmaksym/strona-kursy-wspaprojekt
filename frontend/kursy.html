@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kursy — LearnUp</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">Learn<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="kursy.html" class="active">Kursy</a></li>
+        <li><a href="index.html#kontakt">Kontakt</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-btn" id="themeBtn">🌙</button>
+        <a href="login.html" class="btn-outline">Logowanie</a>
+        <a href="register.html" class="btn-primary">Rejestracja</a>
+        <button class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Strona główna</a>
+      <a href="kursy.html">Kursy</a>
+      <a href="login.html">Logowanie</a>
+    </div>
+  </header>
+
+  <main class="courses-page">
+    <div class="courses-header">
+      <p class="section-label">Wszystkie kursy</p>
+      <h1>Znajdź swój <span class="highlight">idealny kurs</span></h1>
+      <p>Ponad 200 kursów prowadzonych przez ekspertów z branży.</p>
+    </div>
+
+
+    <div class="courses-filters">
+      <button class="filter-btn active" data-filter="all">Wszystkie</button>
+      <button class="filter-btn" data-filter="beginner">Początkujący</button>
+      <button class="filter-btn" data-filter="mid">Średniozaawansowany</button>
+      <button class="filter-btn" data-filter="adv">Zaawansowany</button>
+      <button class="filter-btn" data-filter="programming">Programowanie</button>
+      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="data">Dane</button>
+    </div>
+
+    <div class="courses-grid" id="coursesGrid">
+
+      <div class="offer-card reveal" data-level="beginner" data-cat="programming">
+        <span class="tag tag-beginner">Początkujący</span>
+        <h3>HTML & CSS — od zera do bohatera</h3>
+        <p>Zbuduj swoją pierwszą stronę internetową bez wcześniejszej wiedzy.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 12h · 48 lekcji</span>
+          <span class="offer-price">149 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="beginner" data-cat="programming">
+        <span class="tag tag-beginner">Początkujący</span>
+        <h3>JavaScript — interaktywne strony</h3>
+        <p>Naucz się JavaScript od podstaw. Zmienne, funkcje, DOM i pierwsza aplikacja.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 18h · 72 lekcje</span>
+          <span class="offer-price">199 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="beginner" data-cat="data">
+        <span class="tag tag-beginner">Początkujący</span>
+        <h3>Python — pierwsze kroki</h3>
+        <p>Podstawy Pythona dla osób bez doświadczenia. Logika, pętle, funkcje.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 14h · 55 lekcji</span>
+          <span class="offer-price">179 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="mid" data-cat="programming">
+        <span class="tag tag-mid">Średni</span>
+        <h3>React.js — nowoczesny frontend</h3>
+        <p>Twórz dynamiczne aplikacje z najpopularniejszą biblioteką JavaScript.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 22h · 90 lekcji</span>
+          <span class="offer-price">299 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="mid" data-cat="data">
+        <span class="tag tag-mid">Średni</span>
+        <h3>Python — analiza danych</h3>
+        <p>Pandas, NumPy, matplotlib. Przetwarzaj dane jak profesjonalista.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 20h · 80 lekcji</span>
+          <span class="offer-price">249 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="mid" data-cat="design">
+        <span class="tag tag-mid">Średni</span>
+        <h3>UI/UX Design — podstawy</h3>
+        <p>Zasady projektowania, typografia, kolory i pierwsze projekty w Figmie.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 16h · 64 lekcje</span>
+          <span class="offer-price">229 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="adv" data-cat="programming">
+        <span class="tag tag-adv">Zaawansowany</span>
+        <h3>Node.js & REST API</h3>
+        <p>Buduj serwery i API od podstaw. Express, bazy danych, JWT i deployment.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 25h · 100 lekcji</span>
+          <span class="offer-price">349 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="adv" data-cat="design">
+        <span class="tag tag-adv">Zaawansowany</span>
+        <h3>UI/UX Design — Figma Pro</h3>
+        <p>Projektuj piękne interfejsy. Wireframing, prototypy i design system.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 16h · 64 lekcje</span>
+          <span class="offer-price">279 zł</span>
+        </div>
+      </div>
+
+      <div class="offer-card reveal" data-level="adv" data-cat="data">
+        <span class="tag tag-adv">Zaawansowany</span>
+        <h3>Machine Learning z Pythonem</h3>
+        <p>Scikit-learn, TensorFlow, modele klasyfikacji i regresji od podstaw.</p>
+        <div class="offer-footer">
+          <span class="offer-meta">⏱ 30h · 120 lekcji</span>
+          <span class="offer-price">399 zł</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        © 2025 LearnUp. Projekt portfolio.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+  
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.offer-card');
+
+    filterBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+
+        cards.forEach(function(card) {
+          if (filter === 'all') {
+            card.style.display = 'flex';
+          } else if (filter === 'beginner' || filter === 'mid' || filter === 'adv') {
+            card.style.display = card.getAttribute('data-level') === filter ? 'flex' : 'none';
+          } else {
+            card.style.display = card.getAttribute('data-cat') === filter ? 'flex' : 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

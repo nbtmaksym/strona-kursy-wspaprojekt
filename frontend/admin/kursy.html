@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zarządzanie kursami — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link active">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+        <a href="../login.html" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1>Zarządzanie kursami</h1>
+          <p>Dodawaj, edytuj i usuwaj kursy</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="theme-btn" id="themeBtn">🌙</button>
+          <button class="btn-primary" onclick="openModal()">+ Dodaj kurs</button>
+        </div>
+      </div>
+
+
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Szukaj kursu..." oninput="filterTable()">
+      </div>
+
+    
+      <div class="table-container">
+        <div class="table-header">
+          <h3>Wszystkie kursy</h3>
+          <span style="color:var(--text-soft);font-size:0.9rem" id="courseCount">9 kursów</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nazwa kursu</th>
+              <th>Poziom</th>
+              <th>Cena</th>
+              <th>Zapisani</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody id="coursesTable">
+            <tr>
+              <td>HTML & CSS — od zera do bohatera</td>
+              <td><span class="tag tag-beginner">Początkujący</span></td>
+              <td>149 zł</td>
+              <td>156</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>JavaScript — interaktywne strony</td>
+              <td><span class="tag tag-beginner">Początkujący</span></td>
+              <td>199 zł</td>
+              <td>342</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Python — pierwsze kroki</td>
+              <td><span class="tag tag-beginner">Początkujący</span></td>
+              <td>179 zł</td>
+              <td>98</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>React.js — nowoczesny frontend</td>
+              <td><span class="tag tag-mid">Średni</span></td>
+              <td>299 zł</td>
+              <td>195</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Python — analiza danych</td>
+              <td><span class="tag tag-mid">Średni</span></td>
+              <td>249 zł</td>
+              <td>218</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>UI/UX Design — podstawy</td>
+              <td><span class="tag tag-mid">Średni</span></td>
+              <td>229 zł</td>
+              <td>134</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Node.js & REST API</td>
+              <td><span class="tag tag-adv">Zaawansowany</span></td>
+              <td>349 zł</td>
+              <td>87</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>UI/UX Design — Figma Pro</td>
+              <td><span class="tag tag-adv">Zaawansowany</span></td>
+              <td>279 zł</td>
+              <td>76</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Machine Learning z Pythonem</td>
+              <td><span class="tag tag-adv">Zaawansowany</span></td>
+              <td>399 zł</td>
+              <td>63</td>
+              <td class="td-actions">
+                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
+                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Dodaj nowy kurs</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <form id="courseForm">
+        <div class="form-group">
+          <label>Nazwa kursu *</label>
+          <input type="text" id="courseName" placeholder="np. Vue.js dla początkujących">
+        </div>
+        <div class="form-group">
+          <label>Opis *</label>
+          <textarea id="courseDesc" placeholder="Krótki opis kursu..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Poziom *</label>
+          <select id="courseLevel">
+            <option value="">Wybierz poziom</option>
+            <option value="beginner">Początkujący</option>
+            <option value="mid">Średniozaawansowany</option>
+            <option value="adv">Zaawansowany</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cena (zł) *</label>
+          <input type="number" id="coursePrice" placeholder="np. 249">
+        </div>
+        <div class="form-group">
+          <label>Czas trwania (godziny)</label>
+          <input type="number" id="courseDuration" placeholder="np. 20">
+        </div>
+        <div id="courseFormMsg" class="form-msg"></div>
+        <button type="button" class="btn-primary btn-full" onclick="saveCourse()">Zapisz kurs</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
