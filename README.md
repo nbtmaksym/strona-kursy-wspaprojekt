@@ -24,8 +24,8 @@ Platforma kursów online — projekt portfolio.
 | `frontend/login.html` | Logowanie |
 | `frontend/register.html` | Rejestracja |
 | `frontend/dashboard.html` | Panel użytkownika |
-| `frontend/admin/index.html` | Panel admina — statystyki |
-| `frontend/admin/kursy.html` | Panel admina — zarządzanie kursami |
+| `frontend/admin/index.html` | Panel admina statystyki |
+| `frontend/admin/kursy.html` | Panel admina zarządzanie kursami |
 | `frontend/admin/uzytkownicy.html` | Panel admina — użytkownicy |
 
 ## Funkcjonalności
