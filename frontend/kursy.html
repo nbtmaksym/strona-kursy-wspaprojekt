@@ -40,7 +40,6 @@
       <p>Ponad 200 kursów prowadzonych przez ekspertów z branży.</p>
     </div>
 
-
     <div class="courses-filters">
       <button class="filter-btn active" data-filter="all">Wszystkie</button>
       <button class="filter-btn" data-filter="beginner">Początkujący</button>
@@ -53,7 +52,7 @@
 
     <div class="courses-grid" id="coursesGrid">
 
-      <div class="offer-card reveal" data-level="beginner" data-cat="programming">
+      <div class="offer-card" data-level="beginner" data-cat="programming">
         <span class="tag tag-beginner">Początkujący</span>
         <h3>HTML & CSS — od zera do bohatera</h3>
         <p>Zbuduj swoją pierwszą stronę internetową bez wcześniejszej wiedzy.</p>
@@ -63,7 +62,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="beginner" data-cat="programming">
+      <div class="offer-card" data-level="beginner" data-cat="programming">
         <span class="tag tag-beginner">Początkujący</span>
         <h3>JavaScript — interaktywne strony</h3>
         <p>Naucz się JavaScript od podstaw. Zmienne, funkcje, DOM i pierwsza aplikacja.</p>
@@ -73,7 +72,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="beginner" data-cat="data">
+      <div class="offer-card" data-level="beginner" data-cat="data">
         <span class="tag tag-beginner">Początkujący</span>
         <h3>Python — pierwsze kroki</h3>
         <p>Podstawy Pythona dla osób bez doświadczenia. Logika, pętle, funkcje.</p>
@@ -83,7 +82,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="mid" data-cat="programming">
+      <div class="offer-card" data-level="mid" data-cat="programming">
         <span class="tag tag-mid">Średni</span>
         <h3>React.js — nowoczesny frontend</h3>
         <p>Twórz dynamiczne aplikacje z najpopularniejszą biblioteką JavaScript.</p>
@@ -93,7 +92,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="mid" data-cat="data">
+      <div class="offer-card" data-level="mid" data-cat="data">
         <span class="tag tag-mid">Średni</span>
         <h3>Python — analiza danych</h3>
         <p>Pandas, NumPy, matplotlib. Przetwarzaj dane jak profesjonalista.</p>
@@ -103,7 +102,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="mid" data-cat="design">
+      <div class="offer-card" data-level="mid" data-cat="design">
         <span class="tag tag-mid">Średni</span>
         <h3>UI/UX Design — podstawy</h3>
         <p>Zasady projektowania, typografia, kolory i pierwsze projekty w Figmie.</p>
@@ -113,7 +112,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="adv" data-cat="programming">
+      <div class="offer-card" data-level="adv" data-cat="programming">
         <span class="tag tag-adv">Zaawansowany</span>
         <h3>Node.js & REST API</h3>
         <p>Buduj serwery i API od podstaw. Express, bazy danych, JWT i deployment.</p>
@@ -123,7 +122,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="adv" data-cat="design">
+      <div class="offer-card" data-level="adv" data-cat="design">
         <span class="tag tag-adv">Zaawansowany</span>
         <h3>UI/UX Design — Figma Pro</h3>
         <p>Projektuj piękne interfejsy. Wireframing, prototypy i design system.</p>
@@ -133,7 +132,7 @@
         </div>
       </div>
 
-      <div class="offer-card reveal" data-level="adv" data-cat="data">
+      <div class="offer-card" data-level="adv" data-cat="data">
         <span class="tag tag-adv">Zaawansowany</span>
         <h3>Machine Learning z Pythonem</h3>
         <p>Scikit-learn, TensorFlow, modele klasyfikacji i regresji od podstaw.</p>
@@ -155,29 +154,59 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script>
-  
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.offer-card');
+ <script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.offer-card');
 
-    filterBtns.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-        const filter = btn.getAttribute('data-filter');
+      const filter = btn.getAttribute('data-filter');
 
+      cards.forEach(function(card) {
+        card.style.display = 'flex';
+        card.classList.remove('card-visible');
+        card.classList.add('card-hidden');
+      });
+
+      setTimeout(function() {
+        let widoczne = 0;
         cards.forEach(function(card) {
+          let pasuje = false;
+
           if (filter === 'all') {
-            card.style.display = 'flex';
+            pasuje = true;
           } else if (filter === 'beginner' || filter === 'mid' || filter === 'adv') {
-            card.style.display = card.getAttribute('data-level') === filter ? 'flex' : 'none';
+            pasuje = card.getAttribute('data-level') === filter;
           } else {
-            card.style.display = card.getAttribute('data-cat') === filter ? 'flex' : 'none';
+            pasuje = card.getAttribute('data-cat') === filter;
+          }
+
+          if (pasuje) {
+            card.classList.remove('card-hidden');
+            setTimeout(function() {
+              card.classList.add('card-visible');
+            }, widoczne * 80);
+            widoczne++;
+          } else {
+            card.style.display = 'none';
           }
         });
-      });
+      }, 200);
     });
-  </script>
+  });
+
+  window.addEventListener('load', function() {
+    cards.forEach(function(card, index) {
+      card.classList.add('card-hidden');
+      setTimeout(function() {
+        card.classList.remove('card-hidden');
+        card.classList.add('card-visible');
+      }, index * 80);
+    });
+  });
+</script>
 </body>
 </html>
