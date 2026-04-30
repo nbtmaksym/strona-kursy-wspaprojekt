@@ -1,0 +1,284 @@
+.kurs-layout {
+  display: flex;
+  min-height: 100vh;
+  animation: none;
+}
+
+.kurs-sidebar {
+  width: 320px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  height: 100vh;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kurs-sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.kurs-sidebar-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.kurs-postep-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.kurs-postep-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.kurs-postep-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+}
+
+.kurs-nav {
+  flex: 1;
+  padding: 16px 0;
+}
+
+.kurs-modul {
+  margin-bottom: 8px;
+}
+
+.kurs-modul-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.kurs-modul-header:hover {
+  color: var(--text);
+}
+
+.kurs-modul-arrow {
+  transition: transform 0.2s;
+  font-size: 0.7rem;
+}
+
+.kurs-modul.open .kurs-modul-arrow {
+  transform: rotate(90deg);
+}
+
+.kurs-lekcje-lista {
+  display: none;
+}
+
+.kurs-modul.open .kurs-lekcje-lista {
+  display: block;
+}
+
+/* Pojedyncza lekcja w liście */
+.kurs-lekcja-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px 10px 36px;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-left: 3px solid transparent;
+}
+
+.kurs-lekcja-item:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.kurs-lekcja-item.aktywna {
+  background: var(--bg3);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.kurs-lekcja-item.ukonczona {
+  color: var(--text-soft);
+}
+
+.kurs-lekcja-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.kurs-lekcja-item.ukonczona .kurs-lekcja-check {
+  background: #64fcb4;
+  border-color: #64fcb4;
+  color: #0a2e1e;
+}
+
+.kurs-lekcja-item.aktywna .kurs-lekcja-check {
+  border-color: var(--accent);
+}
+
+.kurs-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.kurs-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.kurs-modul-nazwa {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.kurs-lekcja-nazwa {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Symulowane wideo */
+.kurs-wideo {
+  margin: 32px 40px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 16/9;
+  background: var(--bg2);
+}
+
+.kurs-wideo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-soft);
+  background: var(--bg2);
+}
+
+.play-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--text-soft);
+}
+
+.kurs-wideo-placeholder p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.kurs-wideo-placeholder span {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.kurs-opis {
+  padding: 0 40px 24px;
+}
+
+.kurs-opis h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.kurs-opis p {
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.kurs-nawigacja {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 40px 40px;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+}
+
+.certyfikat-container {
+  padding: 40px;
+  text-align: center;
+  display: none;
+}
+
+.certyfikat-container.aktywny {
+  display: block;
+}
+
+
+@media (max-width: 900px) {
+  .kurs-sidebar {
+    display: none;
+  }
+
+  .kurs-topbar {
+    padding: 16px 20px;
+  }
+
+  .kurs-wideo {
+    margin: 20px;
+  }
+
+  .kurs-opis {
+    padding: 0 20px 20px;
+  }
+
+  .kurs-nawigacja {
+    padding: 20px;
+  }
+}

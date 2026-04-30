@@ -57,7 +57,32 @@ class KursOut(BaseModel):
     class Config:
         from_attributes = True
 
+class ZakupCreate(BaseModel):
+    kurs_id: int
 
+class ZakupOut(BaseModel):
+    id:         int
+    user_id:    int
+    kurs_id:    int
+    cena:       float
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class PostepCreate(BaseModel):
+    kurs_id:   int
+    lekcja_id: int
+
+class PostepOut(BaseModel):
+    id:         int
+    user_id:    int
+    kurs_id:    int
+    lekcja_id:  int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
 
 class Token(BaseModel):
     """Token JWT po zalogowaniu"""

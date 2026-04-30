@@ -13,17 +13,17 @@
 }
 
 [data-theme="light"] {
-  --bg:         #f5f5fa;
+  --bg:         #f0f0f8;
   --bg2:        #ffffff;
-  --bg3:        #eaeaf5;
-  --text:       #111118;
-  --text-soft:  #666678;
-  --accent:     #6244e8;
-  --accent2:    #e84444;
+  --bg3:        #e4e4f0;
+  --text:       #0d0d18;
+  --text-soft:  #52526a;
+  --accent:     #4c2fd4;
+  --accent2:    #cc2222;
   --card:       #ffffff;
-  --border:     #dddde8;
-  --success:    #1a9e6a;
-  --error:      #cc3333;
+  --border:     #c8c8de;
+  --success:    #157a52;
+  --error:      #aa2222;
 }
 
 * {
@@ -1171,4 +1171,14 @@ footer {
   .auth-card {
     padding: 32px 24px;
   }
+}
+.kurs-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.kurs-btns a {
+  flex: 1;
+  text-align: center;
 }

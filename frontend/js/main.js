@@ -1,15 +1,19 @@
 const themeBtn = document.getElementById('themeBtn');
 
+const zapisanyTryb = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', zapisanyTryb);
+if (themeBtn) {
+  themeBtn.textContent = zapisanyTryb === 'dark' ? '🌙' : '☀️';
+}
 if (themeBtn) {
   themeBtn.addEventListener('click', function() {
     const aktualny = document.documentElement.getAttribute('data-theme');
-    if (aktualny === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'light');
-      themeBtn.textContent = '☀️';
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeBtn.textContent = '🌙';
-    }
+    const nowy = aktualny === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', nowy);
+    themeBtn.textContent = nowy === 'dark' ? '🌙' : '☀️';
+
+    localStorage.setItem('theme', nowy);
   });
 }
 

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kurs — LearnUp</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/kurs.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="kurs-layout">
+
+    <aside class="kurs-sidebar">
+      <div class="kurs-sidebar-header">
+        <a href="dashboard.html" class="back-btn" style="position:static;margin-bottom:16px;display:inline-flex">← Dashboard</a>
+        <h2 id="kursTytul">JavaScript — interaktywne strony</h2>
+        <div class="kurs-postep-bar">
+          <div class="kurs-postep-fill" id="postepFill" style="width:0%"></div>
+        </div>
+        <div class="kurs-postep-label">
+          <span id="postepProcent">0%</span>
+          <span id="postepLekcje">0 / 0 lekcji</span>
+        </div>
+      </div>
+
+      <nav class="kurs-nav" id="kursNav">
+      </nav>
+    </aside>
+
+    <main class="kurs-main">
+
+      <div class="kurs-topbar">
+        <div>
+          <p class="kurs-modul-nazwa" id="aktualnyModul">Moduł 1</p>
+          <h1 class="kurs-lekcja-nazwa" id="aktualnaLekcja">Wprowadzenie</h1>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="theme-btn" id="themeBtn">🌙</button>
+          <button class="btn-primary" id="btnUkoncz" onclick="ukończLekcję()">
+            Ukończ lekcję ✓
+          </button>
+        </div>
+      </div>
+
+      <div class="kurs-wideo">
+        <div class="kurs-wideo-placeholder">
+          <div class="play-icon">▶</div>
+          <p>Tutaj jest wideo</p>
+          <span>Lekcja: <span id="wideo-lekcja-nazwa">Wprowadzenie</span></span>
+        </div>
+      </div>
+
+      <div class="kurs-opis">
+        <h3>O tej lekcji</h3>
+        <p id="opisLekcji">Wybierz lekcję z panelu po lewej stronie aby rozpocząć naukę.</p>
+      </div>
+
+      <!-- Nawigacja między lekcjami -->
+      <div class="kurs-nawigacja">
+        <button class="btn-outline" id="btnPoprzednia" onclick="poprzedniaLekcja()">← Poprzednia</button>
+        <button class="btn-primary" id="btnNastepna" onclick="nastepnaLekcja()">Następna →</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/kurs.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime, Text
+from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime, Text, ForeignKey
 from sqlalchemy.sql import func
 from database import Base
 
@@ -27,3 +27,22 @@ class Kurs(Base):
     czas_godz   = Column(Integer, nullable=False)
     liczba_lekc = Column(Integer, nullable=False)
     created_at  = Column(DateTime, server_default=func.now())
+
+class Zakup(Base):
+    __tablename__ = "zakupy"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=False)
+    kurs_id    = Column(Integer, ForeignKey("kursy.id"), nullable=False)
+    cena       = Column(Float, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+
+class Postep(Base):
+    __tablename__ = "postep"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=False)
+    kurs_id    = Column(Integer, nullable=False)
+    lekcja_id  = Column(Integer, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
