@@ -7,7 +7,7 @@ from routes import auth, kursy, users, zakupy, postep
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="LearnUp API", version="1.0")
+app = FastAPI(title="LearnUp API", version="3.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,4 +26,4 @@ app.include_router(postep.router)
 
 @app.get("/")
 def root():
-    return {"message": "LearnUp API działa!"}
+    return {"message": "LearnUp API v3 działa!"}

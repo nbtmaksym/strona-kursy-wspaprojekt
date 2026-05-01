@@ -11,8 +11,18 @@ class User(Base):
     email         = Column(String, unique=True, index=True, nullable=False)
     password_hash = Column(String, nullable=False)
     is_admin      = Column(Boolean, default=False)
-    is_active     = Column(Boolean, default=True)
+    is_active     = Column(Boolean, default=False) 
     created_at    = Column(DateTime, server_default=func.now())
+
+
+class VerificationCode(Base):
+    """Kody weryfikacyjne do potwierdzenia rejestracji"""
+    __tablename__ = "verification_codes"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=False)
+    kod        = Column(String, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
 
 
 class Kurs(Base):
@@ -21,12 +31,13 @@ class Kurs(Base):
     id          = Column(Integer, primary_key=True, index=True)
     nazwa       = Column(String, nullable=False)
     opis        = Column(Text, nullable=False)
-    poziom      = Column(String, nullable=False)  
-    kategoria   = Column(String, nullable=False)  
+    poziom      = Column(String, nullable=False)
+    kategoria   = Column(String, nullable=False)
     cena        = Column(Float, nullable=False)
     czas_godz   = Column(Integer, nullable=False)
     liczba_lekc = Column(Integer, nullable=False)
     created_at  = Column(DateTime, server_default=func.now())
+
 
 class Zakup(Base):
     __tablename__ = "zakupy"

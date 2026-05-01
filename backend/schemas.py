@@ -5,20 +5,15 @@ from datetime import datetime
 
 
 class UserCreate(BaseModel):
-    """Dane do rejestracji"""
     name:     str
     email:    EmailStr
     password: str
 
-
 class UserLogin(BaseModel):
-    """Dane do logowania"""
     email:    EmailStr
     password: str
 
-
 class UserOut(BaseModel):
-    """Co zwracamy o użytkowniku (bez hasła!)"""
     id:         int
     name:       str
     email:      str
@@ -29,10 +24,12 @@ class UserOut(BaseModel):
     class Config:
         from_attributes = True
 
+class VerifyCode(BaseModel):
+    email: EmailStr
+    kod:   str
 
 
 class KursCreate(BaseModel):
-    """Dane do stworzenia kursu"""
     nazwa:       str
     opis:        str
     poziom:      str
@@ -41,9 +38,7 @@ class KursCreate(BaseModel):
     czas_godz:   int
     liczba_lekc: int
 
-
 class KursOut(BaseModel):
-    """Co zwracamy o kursie"""
     id:          int
     nazwa:       str
     opis:        str
@@ -85,11 +80,8 @@ class PostepOut(BaseModel):
         from_attributes = True
 
 class Token(BaseModel):
-    """Token JWT po zalogowaniu"""
     access_token: str
     token_type:   str
 
-
 class TokenData(BaseModel):
-    """Dane wyciągnięte z tokenu"""
     email: Optional[str] = None
