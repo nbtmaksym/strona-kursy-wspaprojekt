@@ -240,12 +240,26 @@ function ukończLekcję() {
   localStorage.setItem('postep_' + aktualnyKursId, JSON.stringify([...ukonczone]));
   aktualizujPostep();
 
-  if (ukonczone.has(aktualnaLekcjaId)) {
-    setTimeout(nastepnaLekcja, 400);
-  }
+if (ukonczone.has(aktualnaLekcjaId)) {
+  setTimeout(function() {
+    nastepnaLekcja();
+    const btn = document.getElementById('btnUkoncz');
+    if (ukonczone.has(aktualnaLekcjaId)) {
+      btn.textContent = 'Odznacz lekcję ✕';
+    } else {
+      btn.textContent = 'Ukończ lekcję ✓';
+    }
+  }, 400);
 }
 
 function aktualizujPostep() {
+
+  const btn = document.getElementById('btnUkoncz');
+      if (ukonczone.has(aktualnaLekcjaId)) {
+          btn.textContent = 'Odznacz lekcję ✕';
+}     else {
+          btn.textContent = 'Ukończ lekcję ✓';
+}
   const kurs = KURSY[aktualnyKursId];
   let wszystkieLekcje = 0;
 
@@ -293,6 +307,12 @@ function poprzedniaLekcja() {
 }
 
 function aktualizujNawigacje() {
+const btn = document.getElementById('btnUkoncz');
+    if (ukonczone.has(lekcjaId)) {
+        btn.textContent = 'Odznacz lekcję ✕';
+}   else {
+        btn.textContent = 'Ukończ lekcję ✓';
+}
   const wszystkie = pobierzWszystkieLekcje();
   const index = wszystkie.indexOf(aktualnaLekcjaId);
 
@@ -308,16 +328,18 @@ function toggleModul(modulDiv) {
 
 
 function pokazCertyfikat() {
-  const kurs = KURSY[aktualnyKursId];
+  if (document.getElementById('btnCertyfikat')) return;
+  const topbar = document.querySelector('.kurs-topbar');
+  const prawaStrona = topbar.querySelector('div:last-child');
 
-  document.getElementById('opisLekcji').innerHTML = `
-    Gratulacje! Ukończyłeś kurs <strong>${kurs.nazwa}</strong>. 🎉<br><br>
-    Możesz teraz pobrać swój certyfikat ukończenia.
-  `;
+  const btnCert = document.createElement('button');
+  btnCert.id = 'btnCertyfikat';
+  btnCert.className = 'btn-outline';
+  btnCert.textContent = '🏆 Pobierz certyfikat';
+  btnCert.onclick = pobierzCertyfikat;
+  btnCert.style.cssText = 'font-size:0.85rem;padding:10px 16px';
 
-  const btn = document.getElementById('btnUkoncz');
-  btn.textContent = '🏆 Pobierz certyfikat';
-  btn.onclick = pobierzCertyfikat;
+  prawaStrona.insertBefore(btnCert, prawaStrona.querySelector('#btnUkoncz'));
 }
 
 

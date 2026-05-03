@@ -1,3 +1,9 @@
+window.addEventListener('load', function() {
+  if (!localStorage.getItem('token')) {
+    window.location.href = 'login.html';
+  }
+});
+
 emailjs.init('OauThvHsZTmta6WmX');
 
 const EMAILJS_SERVICE_ID  = 'service_04jy9fz';

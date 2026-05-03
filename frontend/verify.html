@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weryfikacja konta — LearnUp</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body class="auth-page">
+
+  <a href="register.html" class="back-btn">← Wróć do rejestracji</a>
+
+  <div class="auth-card">
+    <a href="index.html" class="logo">Learn<span>Up</span></a>
+
+    <h1>Sprawdź email! 📬</h1>
+    <p class="subtitle">Wysłaliśmy 6-cyfrowy kod na <strong id="emailDisplay">Twój email</strong></p>
+
+    <form id="verifyForm">
+
+      <div class="form-group">
+        <label>Kod weryfikacyjny</label>
+        <input
+          type="text"
+          id="kod"
+          placeholder="000000"
+          maxlength="6"
+          style="font-size:1.8rem;letter-spacing:12px;text-align:center;font-family:'Courier New',monospace"
+          oninput="this.value=this.value.replace(/\D/g,'')"
+        >
+      </div>
+
+      <div id="verifyMsg" class="form-msg"></div>
+
+      <button type="submit" class="btn-primary btn-full">Zweryfikuj konto →</button>
+
+      <div class="divider">Nie dostałeś kodu?</div>
+
+      <button type="button" class="btn-outline btn-full" onclick="wyslijPonownie()">
+        Wyślij ponownie
+      </button>
+
+    </form>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    emailjs.init('OauThvHsZTmta6WmX');
+
+    const EMAILJS_SERVICE_ID  = 'service_04jy9fz';
+    const EMAILJS_VERIFY_ID   = 'template_zmumube';
+    const API = 'http://localhost:8000';
+    const pendingUser = JSON.parse(sessionStorage.getItem('pending_user') || '{}');
+
+    if (pendingUser.email) {
+      document.getElementById('emailDisplay').textContent = pendingUser.email;
+    } else {
+      window.location.href = 'register.html';
+    }
+
+    async function wyslijKod(imie, email, kod) {
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_VERIFY_ID, {
+          imie:     imie,
+          kod:      kod,
+          to_email: email
+        });
+      } catch(e) {
+        console.error('EmailJS error:', e);
+      }
+    }
+
+    window.addEventListener('load', function() {
+      if (pendingUser.kod) {
+        wyslijKod(pendingUser.name, pendingUser.email, pendingUser.kod);
+      }
+    });
+
+    async function wyslijPonownie() {
+      const btn = document.querySelector('button[onclick="wyslijPonownie()"]');
+      btn.textContent = 'Wysyłanie...';
+      btn.disabled = true;
+
+      await wyslijKod(pendingUser.name, pendingUser.email, pendingUser.kod);
+
+      btn.textContent = '✅ Wysłano ponownie';
+      setTimeout(function() {
+        btn.textContent = 'Wyślij ponownie';
+        btn.disabled = false;
+      }, 3000);
+    }
+    document.getElementById('verifyForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const kod = document.getElementById('kod').value.trim();
+      const msg = document.getElementById('verifyMsg');
+
+      msg.className = 'form-msg';
+
+      if (kod.length !== 6) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Wpisz 6-cyfrowy kod';
+        return;
+      }
+
+      try {
+        const res = await fetch(API + '/api/auth/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: pendingUser.email,
+            kod:   kod
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          msg.className = 'form-msg error';
+          msg.textContent = '❌ ' + data.detail;
+          return;
+        }
+
+        msg.className = 'form-msg success';
+        msg.textContent = '✅ Konto zweryfikowane! Przekierowuję...';
+
+        sessionStorage.removeItem('pending_user');
+
+        window.location.href = 'login.html';
+
+      } catch(e) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Błąd połączenia z serwerem';
+      }
+    });
+  </script>
+</body>
+</html>

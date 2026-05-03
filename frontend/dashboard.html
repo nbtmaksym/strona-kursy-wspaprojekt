@@ -42,12 +42,12 @@
 
       <div class="dashboard-header">
         <div>
-          <h1>Cześć, Jan! 👋</h1>
+          <h1 id="dashboardImie">Cześć! 👋</h1>
           <p>Kontynuuj naukę tam gdzie skończyłeś.</p>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <button class="theme-btn" id="themeBtn">🌙</button>
-          <div class="user-avatar">JK</div>
+          <div class="user-avatar" id="dashboardAvatar">?</div>
         </div>
       </div>
 
@@ -139,5 +139,17 @@
 
   <script src="js/main.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+  const user = getUser();
+  if (user) {
+    const imie = user.name.split(' ')[0];
+    document.getElementById('dashboardImie').textContent = 'Cześć, ' + imie + '! 👋';
+    const inicjaly = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    document.getElementById('dashboardAvatar').textContent = inicjaly;
+    document.getElementById('dashboardAvatar').onclick = toggleUserMenu;
+  }
+</script>
 </body>
 </html>
