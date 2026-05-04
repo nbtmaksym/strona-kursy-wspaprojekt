@@ -1,10 +1,10 @@
+emailjs.init('OauThvHsZTmta6WmX');
 window.addEventListener('load', function() {
   if (!localStorage.getItem('token')) {
     window.location.href = 'login.html';
   }
 });
 
-emailjs.init('OauThvHsZTmta6WmX');
 
 const EMAILJS_SERVICE_ID  = 'service_04jy9fz';
 const EMAILJS_TEMPLATE_ID = 'template_7hin0gf';
@@ -113,32 +113,51 @@ zakupForm.addEventListener('submit', async function(event) {
   btn.textContent = 'Przetwarzanie...';
   btn.disabled = true;
 
-  localStorage.setItem('user_name', imie);
-  localStorage.setItem('user_email', email);
+localStorage.setItem('user_name', imie);
+localStorage.setItem('user_email', email);
 
-  const zakupioneCursy = JSON.parse(localStorage.getItem('zakupione_kursy') || '[]');
-  if (!zakupioneCursy.includes(kursId)) {
-    zakupioneCursy.push(kursId);
-    localStorage.setItem('zakupione_kursy', JSON.stringify(zakupioneCursy));
-  }
-
- try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      imie:        imie,
-      nazwa_kursu: kurs.nazwa,
-      cena:        kurs.cena,
-      data:        new Date().toLocaleDateString('pl-PL'),
-      to_email:    email,
+try {
+  // Wyślij zakup do backendu
+  const token = localStorage.getItem('token');
+  if (token) {
+    const zakupRes = await fetch('http://localhost:8000/api/zakupy/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ kurs_id: kursId })
     });
 
-    document.getElementById('successModal').classList.add('open');
-
-  } catch (error) {
-    console.error('EmailJS error:', error);
-    document.getElementById('successModal').classList.add('open');
-
-  } finally {
-    btn.textContent = 'Zapłać ' + kurs.cena + ' zł →';
-    btn.disabled = false;
+    if (!zakupRes.ok) {
+      const err = await zakupRes.json();
+      if (!err.detail.includes('już zakupiony')) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ ' + err.detail;
+        btn.textContent = 'Zapłać ' + kurs.cena + ' zł →';
+        btn.disabled = false;
+        return;
+      }
+    }
   }
+
+  // Wyślij email przez EmailJS
+  await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    imie:        imie,
+    nazwa_kursu: kurs.nazwa,
+    cena:        kurs.cena,
+    data:        new Date().toLocaleDateString('pl-PL'),
+    to_email:    email,
+  });
+
+  document.getElementById('successModal').classList.add('open');
+
+} catch (error) {
+  console.error('Błąd:', error);
+  document.getElementById('successModal').classList.add('open');
+
+} finally {
+  btn.textContent = 'Zapłać ' + kurs.cena + ' zł →';
+  btn.disabled = false;
+}
 });

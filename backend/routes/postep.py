@@ -8,22 +8,20 @@ import auth as auth_utils
 router = APIRouter(prefix="/api/postep", tags=["postep"])
 
 
-@router.post("/", response_model=schemas.PostepOut)
+@router.post("/")
 def zapisz_postep(
     dane:         schemas.PostepCreate,
     db:           Session = Depends(get_db),
     current_user=Depends(auth_utils.get_current_user)
 ):
-    """Zapisz ukończoną lekcję"""
-
     istniejacy = db.query(models.Postep).filter(
-        models.Postep.user_id  == current_user.id,
-        models.Postep.kurs_id  == dane.kurs_id,
+        models.Postep.user_id   == current_user.id,
+        models.Postep.kurs_id   == dane.kurs_id,
         models.Postep.lekcja_id == dane.lekcja_id
     ).first()
 
     if istniejacy:
-        return istniejacy  
+        return {"message": "Juz istnieje", "id": istniejacy.id}
 
     postep = models.Postep(
         user_id   = current_user.id,
@@ -36,14 +34,33 @@ def zapisz_postep(
     return postep
 
 
-@router.get("/{kurs_id}", response_model=List[schemas.PostepOut])
+@router.delete("/")
+def usun_postep(
+    dane:         schemas.PostepCreate,
+    db:           Session = Depends(get_db),
+    current_user=Depends(auth_utils.get_current_user)
+):
+    postep = db.query(models.Postep).filter(
+        models.Postep.user_id   == current_user.id,
+        models.Postep.kurs_id   == dane.kurs_id,
+        models.Postep.lekcja_id == dane.lekcja_id
+    ).first()
+
+    if postep:
+        db.delete(postep)
+        db.commit()
+
+    return {"message": "Odznaczono"}
+
+
+@router.get("/{kurs_id}")
 def pobierz_postep(
     kurs_id:      int,
     db:           Session = Depends(get_db),
     current_user=Depends(auth_utils.get_current_user)
 ):
-    """Pobierz postęp użytkownika w danym kursie"""
-    return db.query(models.Postep).filter(
+    postepy = db.query(models.Postep).filter(
         models.Postep.user_id == current_user.id,
         models.Postep.kurs_id == kurs_id
     ).all()
+    return [p.lekcja_id for p in postepy]

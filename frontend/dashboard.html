@@ -15,24 +15,20 @@
       <div class="sidebar-logo">
         <a href="index.html" class="logo">Learn<span>Up</span></a>
       </div>
-
       <nav class="sidebar-nav">
-        <a href="dashboard.html" class="sidebar-link active">
+        <a href="dashboard.html" class="sidebar-link active" id="nav-dashboard">
           <span class="sidebar-icon">📊</span> Dashboard
-        </a>
-        <a href="kursy.html" class="sidebar-link">
-          <span class="sidebar-icon">📚</span> Moje kursy
         </a>
         <a href="kursy.html" class="sidebar-link">
           <span class="sidebar-icon">🔍</span> Znajdź kurs
         </a>
-        <a href="#" class="sidebar-link">
+        <a href="#" class="sidebar-link" onclick="pokazSekcje('certyfikaty')">
           <span class="sidebar-icon">🏆</span> Certyfikaty
         </a>
-        <a href="#" class="sidebar-link">
+        <a href="#" class="sidebar-link" onclick="pokazSekcje('ustawienia')">
           <span class="sidebar-icon">⚙️</span> Ustawienia
         </a>
-        <a href="login.html" class="sidebar-link" style="margin-top:auto">
+        <a href="#" onclick="logout()" class="sidebar-link">
           <span class="sidebar-icon">🚪</span> Wyloguj
         </a>
       </nav>
@@ -43,113 +39,109 @@
       <div class="dashboard-header">
         <div>
           <h1 id="dashboardImie">Cześć! 👋</h1>
-          <p>Kontynuuj naukę tam gdzie skończyłeś.</p>
+          <p id="dashboardPodtytul">Kontynuuj naukę tam gdzie skończyłeś.</p>
         </div>
-        <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px;position:relative">
           <button class="theme-btn" id="themeBtn">🌙</button>
-          <div class="user-avatar" id="dashboardAvatar">?</div>
+          <div class="nav-user">
+            <button class="nav-avatar-btn" onclick="toggleDashboardMenu()">
+              <div class="nav-avatar" id="dashboardAvatar">?</div>
+              <span class="nav-user-name" id="dashboardImieBtn">Użytkownik</span>
+              <span class="nav-arrow">▾</span>
+            </button>
+            <div class="user-dropdown" id="dashboardDropdown">
+              <div class="user-info">
+                <div class="user-info-name" id="dropdownImie">—</div>
+                <div class="user-info-email" id="dropdownEmail">—</div>
+              </div>
+              <a href="index.html">🏠 Strona główna</a>
+              <a href="kursy.html">🔍 Znajdź kurs</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" onclick="logout()">🚪 Wyloguj</a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">📚</div>
-          <div class="stat-value">3</div>
-          <div class="stat-name">Aktywne kursy</div>
+      <!-- SEKCJA: GŁÓWNA -->
+      <div id="sekcja-glowna">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-value" id="statAktywne">—</div>
+            <div class="stat-name">Aktywne kursy</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-value" id="statUkonczone">—</div>
+            <div class="stat-name">Ukończone kursy</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱</div>
+            <div class="stat-value" id="statCzas">—</div>
+            <div class="stat-name">Czas nauki</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value" id="statCert">—</div>
+            <div class="stat-name">Certyfikaty</div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">✅</div>
-          <div class="stat-value">1</div>
-          <div class="stat-name">Ukończone kursy</div>
+
+        <h2 class="section-title">Kontynuuj naukę</h2>
+        <div class="dashboard-courses" id="aktywneKursy">
+          <div style="color:var(--text-soft);font-size:0.9rem">Ładowanie kursów...</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">⏱</div>
-          <div class="stat-value">24h</div>
-          <div class="stat-name">Czas nauki</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🏆</div>
-          <div class="stat-value">1</div>
-          <div class="stat-name">Certyfikaty</div>
+
+        <h2 class="section-title">Ukończone kursy</h2>
+        <div class="dashboard-courses" id="ukonczoneKursy">
+          <div style="color:var(--text-soft);font-size:0.9rem">Ładowanie...</div>
         </div>
       </div>
 
-      <h2 class="section-title">Kontynuuj naukę</h2>
-      <div class="dashboard-courses">
-
-        <div class="dashboard-course-card">
-          <h4>JavaScript — interaktywne strony</h4>
-          <p class="course-meta">⏱ 18h · Lekcja 47 z 72</p>
-          <div class="progress-label">
-            <span>Postęp</span>
-            <span>65%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:65%"></div>
-          </div>
-          <br>
-          <a href="kurs.html?id=2" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">Kontynuuj →</a>
+      <!-- SEKCJA: CERTYFIKATY -->
+      <div id="sekcja-certyfikaty" style="display:none">
+        <h2 class="section-title">Moje certyfikaty</h2>
+        <div class="dashboard-courses" id="listaCertyfikatow">
+          <div style="color:var(--text-soft);font-size:0.9rem">Ładowanie...</div>
         </div>
-
-        <div class="dashboard-course-card">
-          <h4>UI/UX Design – podstawy</h4>
-          <p class="course-meta">⏱ 16h · Lekcja 19 z 64</p>
-          <div class="progress-label">
-            <span>Postęp</span>
-            <span>30%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:30%;background:var(--accent2)"></div>
-          </div>
-          <br>
-          <a href="kurs.html?id=1" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">Kontynuuj →</a>
-        </div>
-
-        <div class="dashboard-course-card">
-          <h4>Python i analiza danych</h4>
-          <p class="course-meta">⏱ 20h · Lekcja 68 z 80</p>
-          <div class="progress-label">
-            <span>Postęp</span>
-            <span>85%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:85%;background:#64fcb4"></div>
-          </div>
-          <br>
-          <a href="kurs.html?id=3" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">Kontynuuj →</a>
-        </div>
-
       </div>
 
-      <h2 class="section-title">Ukończone kursy</h2>
-      <div class="dashboard-courses">
-        <div class="dashboard-course-card">
-          <h4>HTML & CSS — od zera do bohatera</h4>
-          <p class="course-meta">✅ Ukończono · 48 lekcji</p>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:100%;background:#64fcb4"></div>
+      <!-- SEKCJA: USTAWIENIA -->
+      <div id="sekcja-ustawienia" style="display:none">
+        <h2 class="section-title">Ustawienia konta</h2>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:500px">
+
+          <div class="form-group" style="margin-bottom:20px">
+            <label style="font-size:0.85rem;color:var(--text-soft);font-weight:500;display:block;margin-bottom:6px">Imię i nazwisko</label>
+            <input type="text" id="ustawImie" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-size:0.95rem;width:100%;outline:none" readonly>
           </div>
-          <br>
-          <a href="kurs.html?id=1" class="btn-outline" style="font-size:0.85rem;padding:8px 16px">Pobierz certyfikat 🏆</a>
+
+          <div class="form-group" style="margin-bottom:20px">
+            <label style="font-size:0.85rem;color:var(--text-soft);font-weight:500;display:block;margin-bottom:6px">Email</label>
+            <input type="email" id="ustawEmail" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-size:0.95rem;width:100%;outline:none" readonly>
+          </div>
+
+          <div style="height:1px;background:var(--border);margin:24px 0"></div>
+
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px">Motyw</h3>
+          <div style="display:flex;gap:12px">
+            <button onclick="ustawMotyw('dark')" class="btn-outline" style="flex:1;padding:10px">🌙 Ciemny</button>
+            <button onclick="ustawMotyw('light')" class="btn-outline" style="flex:1;padding:10px">☀️ Jasny</button>
+          </div>
+
+          <div style="height:1px;background:var(--border);margin:24px 0"></div>
+
+          <button onclick="logout()" class="btn-outline" style="width:100%;padding:12px;color:var(--accent2);border-color:var(--accent2)">
+            🚪 Wyloguj się
+          </button>
         </div>
       </div>
 
     </main>
   </div>
 
-  <script src="js/main.js"></script>
-  <script src="js/dashboard.js"></script>
   <script src="js/api.js"></script>
-<script src="js/dashboard.js"></script>
-<script>
-  const user = getUser();
-  if (user) {
-    const imie = user.name.split(' ')[0];
-    document.getElementById('dashboardImie').textContent = 'Cześć, ' + imie + '! 👋';
-    const inicjaly = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-    document.getElementById('dashboardAvatar').textContent = inicjaly;
-    document.getElementById('dashboardAvatar').onclick = toggleUserMenu;
-  }
-</script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

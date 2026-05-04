@@ -186,8 +186,8 @@
       <div class="footer-bottom">© 2025 LearnUp. Projekt portfolio.</div>
     </div>
   </footer>
-
-  <script src="js/main.js"></script>
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
   <script>
     const filterBtns = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.offer-card');
@@ -240,5 +240,36 @@
       });
     });
   </script>
+
+  <script>
+window.addEventListener('load', async function() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const res = await fetch('http://localhost:8000/api/zakupy/moje', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!res.ok) return;
+    const zakupy = await res.json();
+    const zakupioneIds = zakupy.map(function(z) { return z.kurs_id; });
+
+    document.querySelectorAll('.offer-card').forEach(function(card) {
+      const kursId = parseInt(card.getAttribute('data-id'));
+      if (zakupioneIds.includes(kursId)) {
+        const btns = card.querySelector('.kurs-btns');
+        if (btns) {
+          btns.innerHTML = `
+            <a href="kurs.html?id=${kursId}" class="btn-primary" style="font-size:0.85rem;padding:9px 16px;flex:1;text-align:center">
+              Przejdź do kursu →
+            </a>
+          `;
+        }
+      }
+    });
+  } catch(e) {}
+});
+</script>
+
 </body>
 </html>

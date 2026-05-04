@@ -42,6 +42,12 @@ body {
   color: var(--text);
   transition: background-color 0.3s, color 0.3s;
   overflow-x: hidden;
+  animation: pageFadeIn 0.45s ease both;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 h1, h2, h3, h4 {
@@ -59,21 +65,6 @@ ul {
 
 img {
   max-width: 100%;
-}
-
-@keyframes pageFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-body {
-  animation: pageFadeIn 0.45s ease both;
 }
 
 .btn-primary {
@@ -225,7 +216,118 @@ header {
   background: var(--border);
 }
 
-/* Hamburger */
+.nav-user {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px 5px 5px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.nav-avatar-btn:hover {
+  border-color: var(--accent);
+  background: var(--bg2);
+}
+
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.nav-user-name {
+  font-size: 0.88rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.nav-arrow {
+  font-size: 0.75rem;
+  color: var(--text-soft);
+}
+
+.user-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 8px;
+  min-width: 220px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  z-index: 200;
+}
+
+.user-dropdown.open {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-dropdown .user-info {
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.user-dropdown .user-info-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.user-dropdown .user-info-email {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  margin-top: 2px;
+}
+
+.user-dropdown a {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  transition: background 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-dropdown a:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
 .hamburger {
   display: none;
   flex-direction: column;
@@ -308,7 +410,6 @@ header {
   max-width: 560px;
 }
 
-
 .hero {
   max-width: 1200px;
   margin: 0 auto;
@@ -335,7 +436,6 @@ header {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
 
 .hero h1 {
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
@@ -373,7 +473,6 @@ header {
   justify-content: center;
 }
 
-
 .hero-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -382,7 +481,6 @@ header {
   width: 340px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.25);
 }
-
 
 .hero-stats {
   display: flex;
@@ -468,7 +566,6 @@ header {
   transition: width 1s ease;
 }
 
-
 .about-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -504,7 +601,6 @@ header {
   color: var(--text-soft);
   line-height: 1.6;
 }
-
 
 .offers-section {
   background: var(--bg2);
@@ -591,6 +687,16 @@ header {
 .tag-mid      { background: rgba(124,92,252,0.15);  color: #a07afc; }
 .tag-adv      { background: rgba(255,107,107,0.15); color: #ff8080; }
 
+.kurs-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.kurs-btns a {
+  flex: 1;
+  text-align: center;
+}
 
 .contact-grid {
   display: grid;
@@ -621,7 +727,6 @@ header {
   color: var(--text-soft);
   font-size: 0.95rem;
 }
-
 
 form {
   display: flex;
@@ -683,7 +788,6 @@ textarea {
   border: 1px solid rgba(124,252,100,0.3);
   display: block;
 }
-
 
 footer {
   background: var(--bg2);
@@ -751,7 +855,6 @@ footer {
   color: var(--text-soft);
 }
 
-
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -796,7 +899,6 @@ footer {
   font-size: 0.85rem;
   margin: 8px 0;
 }
-
 
 .dashboard-layout {
   display: flex;
@@ -890,6 +992,7 @@ footer {
   font-weight: 700;
   color: white;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 .stats-grid {
@@ -1035,8 +1138,7 @@ footer {
 .offer-card.card-visible {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.35s ease, transform 0.35s ease,
-              border-color 0.2s, box-shadow 0.2s;
+  transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.2s, box-shadow 0.2s;
 }
 
 .reveal {
@@ -1060,11 +1162,9 @@ footer {
   .about-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .dashboard-courses {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1074,60 +1174,47 @@ footer {
   .nav-links {
     display: none;
   }
-
   .hamburger {
     display: flex;
   }
-
   .hero {
     flex-direction: column;
     padding: 60px 20px;
     text-align: center;
   }
-
   .hero h1 {
     text-align: center;
   }
-
   .hero p {
     margin-left: auto;
     margin-right: auto;
   }
-
   .hero-btns {
     justify-content: center;
   }
-
   .hero-card {
     width: 100%;
     max-width: 400px;
   }
-
   .offers-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .courses-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-
   .section {
     padding: 60px 20px;
   }
-
   .sidebar {
     display: none;
   }
-
   .dashboard-content {
     padding: 20px;
   }
-
   .back-btn {
     top: 12px;
     left: 12px;
@@ -1140,45 +1227,28 @@ footer {
   .nav {
     padding: 0 20px;
   }
-
   .nav-right .btn-primary {
     display: none;
   }
-
   .offers-grid,
   .courses-grid,
   .dashboard-courses {
     grid-template-columns: 1fr;
   }
-
   .about-grid {
     grid-template-columns: 1fr;
   }
-
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .footer-top {
     flex-direction: column;
     gap: 32px;
   }
-
   footer {
     padding: 40px 20px 24px;
   }
-
   .auth-card {
     padding: 32px 24px;
   }
-}
-.kurs-btns {
-  display: flex;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.kurs-btns a {
-  flex: 1;
-  text-align: center;
 }

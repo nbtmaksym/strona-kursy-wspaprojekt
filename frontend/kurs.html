@@ -37,8 +37,8 @@
           <h1 class="kurs-lekcja-nazwa" id="aktualnaLekcja">Wprowadzenie</h1>
         </div>
         <div style="display:flex;gap:12px;align-items:center">
-          <button class="theme-btn" id="themeBtn">🌙</button>
-          <button class="btn-primary" id="btnUkoncz" onclick="ukończLekcję()">
+          <button type="button" class="theme-btn" id="themeBtn">🌙</button>
+          <button type="button" class="btn-primary" id="btnUkoncz" onclick="ukończLekcję(event)">
             Ukończ lekcję ✓
           </button>
         </div>
@@ -57,16 +57,14 @@
         <p id="opisLekcji">Wybierz lekcję z panelu po lewej stronie aby rozpocząć naukę.</p>
       </div>
 
-      <!-- Nawigacja między lekcjami -->
       <div class="kurs-nawigacja">
-        <button class="btn-outline" id="btnPoprzednia" onclick="poprzedniaLekcja()">← Poprzednia</button>
-        <button class="btn-primary" id="btnNastepna" onclick="nastepnaLekcja()">Następna →</button>
+        <button type="button" class="btn-outline" id="btnPoprzednia" onclick="poprzedniaLekcja()">← Poprzednia</button>
+        <button type="button" class="btn-primary" id="btnNastepna" onclick="nastepnaLekcja()">Następna →</button>
       </div>
 
     </main>
   </div>
 
-  <script src="js/main.js"></script>
   <script src="js/kurs.js"></script>
 </body>
 </html>

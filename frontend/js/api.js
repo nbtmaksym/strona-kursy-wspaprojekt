@@ -31,11 +31,6 @@ async function apiFetch(endpoint, options = {}) {
 
   const res = await fetch(API + endpoint, { ...options, headers });
 
-  if (res.status === 401) {
-    logout();
-    return null;
-  }
-
   return res;
 }
 
@@ -51,10 +46,18 @@ function aktualizujNavbar() {
     navRight.innerHTML = `
       <button class="theme-btn" id="themeBtn">🌙</button>
       <div class="nav-user">
-        <span class="nav-user-name">${user.name.split(' ')[0]}</span>
-        <div class="nav-avatar" onclick="toggleUserMenu()">${inicjaly}</div>
+        <button class="nav-avatar-btn" onclick="toggleUserMenu()">
+          <div class="nav-avatar">${inicjaly}</div>
+          <span class="nav-user-name">${user.name.split(' ')[0]}</span>
+          <span class="nav-arrow">▾</span>
+        </button>
         <div class="user-dropdown" id="userDropdown">
+          <div class="user-info">
+            <div class="user-info-name">${user.name}</div>
+            <div class="user-info-email">${user.email}</div>
+          </div>
           <a href="dashboard.html">📊 Dashboard</a>
+          <a href="kursy.html">📚 Moje kursy</a>
           ${user.is_admin ? '<a href="admin/index.html">⚙️ Admin Panel</a>' : ''}
           <div class="dropdown-divider"></div>
           <a href="#" onclick="logout()">🚪 Wyloguj</a>
@@ -64,10 +67,6 @@ function aktualizujNavbar() {
         <span></span><span></span><span></span>
       </button>
     `;
-
-    inicjalizujThemeBtn();
-    inicjalizujHamburger();
-
   } else {
     navRight.innerHTML = `
       <button class="theme-btn" id="themeBtn">🌙</button>
@@ -77,11 +76,11 @@ function aktualizujNavbar() {
         <span></span><span></span><span></span>
       </button>
     `;
-
-    inicjalizujThemeBtn();
-    inicjalizujHamburger();
   }
-}
+
+  inicjalizujThemeBtn();
+  inicjalizujHamburger();
+  } 
 
 
 function toggleUserMenu() {

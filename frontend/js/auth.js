@@ -1,4 +1,3 @@
-const API = 'http://localhost:8000';
 const registerForm = document.getElementById('registerForm');
 
 if (registerForm) {
