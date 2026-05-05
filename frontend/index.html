@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LearnUp — Platforma Kursów Online</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -56,17 +57,17 @@
    
         <div class="hero-stats">
           <div class="stat">
-            <span class="stat-num">200+</span>
+            <span class="stat-num" data-target="200" data-suffix="+">0</span>
             <span class="stat-label">Kursów</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat">
-            <span class="stat-num">15k</span>
+            <span class="stat-num" data-target="15000">0</span>
             <span class="stat-label">Uczniów</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat">
-            <span class="stat-num">4.9⭐</span>
+            <span class="stat-num" data-target="4.9" data-suffix="⭐">0</span>
             <span class="stat-label">Ocena</span>
           </div>
         </div>
@@ -273,5 +274,75 @@
   </footer>
 <script src="js/api.js"></script>
 <script src="js/main.js"></script>
+<script>
+window.addEventListener('load', async function() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  const ikony = ['💻', '🎨', '📊', '🐍', '⚛️', '🌐', '🖥️', '✏️', '🤖'];
+  const kolory = [
+    'rgba(124,92,252,0.2)',
+    'rgba(255,107,107,0.2)',
+    'rgba(100,252,180,0.2)',
+    'rgba(255,200,100,0.2)',
+    'rgba(100,200,255,0.2)'
+  ];
+
+  try {
+    const res = await fetch('http://localhost:8000/api/zakupy/moje', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!res.ok) return;
+    const zakupy = await res.json();
+    if (zakupy.length === 0) return;
+
+    const kursyZPostepem = await Promise.all(zakupy.map(async function(kurs) {
+      const res = await fetch('http://localhost:8000/api/postep/' + kurs.kurs_id, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const ukonczone = res.ok ? await res.json() : [];
+      const procent = kurs.liczba_lekc > 0
+        ? Math.round((ukonczone.length / kurs.liczba_lekc) * 100)
+        : 0;
+      return { ...kurs, procent };
+    }));
+
+    const aktywne = kursyZPostepem
+      .filter(k => k.procent < 100)
+      .sort((a, b) => b.procent - a.procent)
+      .slice(0, 3);
+
+    if (aktywne.length === 0) return;
+
+    const heroCard = document.querySelector('.hero-card');
+    if (!heroCard) return;
+
+    const stare = heroCard.querySelectorAll('.course-item');
+    stare.forEach(el => el.remove());
+
+    aktywne.forEach(function(kurs, i) {
+      const kolor = kolory[i % kolory.length];
+      const ikona = ikony[i % ikony.length];
+      const kolorPaska = kurs.procent > 70 ? '#64fcb4' : kurs.procent > 30 ? 'var(--accent)' : 'var(--accent2)';
+
+      const item = document.createElement('div');
+      item.className = 'course-item';
+      item.innerHTML = `
+        <div class="course-icon" style="background:${kolor}">${ikona}</div>
+        <div class="course-info">
+          <span>${kurs.nazwa}</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${kurs.procent}%;background:${kolorPaska}"></div>
+          </div>
+        </div>
+        <span class="course-pct">${kurs.procent}%</span>
+      `;
+      heroCard.appendChild(item);
+    });
+
+  } catch(e) {}
+});
+</script>
+<script src="js/chat.js"></script>
 </body>
 </html>

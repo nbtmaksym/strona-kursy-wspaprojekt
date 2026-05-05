@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wiadomości — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    .wiad-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+    .wiad-card.nieprzeczytana {
+      border-left: 3px solid var(--accent);
+    }
+    .wiad-card:hover {
+      border-color: var(--accent);
+    }
+    .wiad-meta {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+    .wiad-temat {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    .wiad-tresc {
+      color: var(--text-soft);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .wiad-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin: 24px 0;
+    }
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+    .page-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .page-btn:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .page-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+        <a href="wiadomosci.html" class="admin-nav-link" style="display:flex;align-items:center">
+  <span class="sidebar-icon">💬</span> Wiadomości
+  <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+</a>
+<a href="kupony.html" class="admin-nav-link">
+  <span class="sidebar-icon">🎟️</span> Kupony
+</a>
+<a href="statystyki.html" class="admin-nav-link">
+  <span class="sidebar-icon">📈</span> Statystyki
+</a>
+<a href="powiadomienia.html" class="admin-nav-link">
+  <span class="sidebar-icon">🔔</span> Powiadomienia
+</a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1>Wiadomości</h1>
+          <p id="wiadCount">Wiadomości od użytkowników platformy</p>
+        </div>
+        <button class="theme-btn" id="themeBtn">🌙</button>
+      </div>
+
+      <div id="wiadomosciLista">
+        <div style="color:var(--text-soft);text-align:center;padding:40px">Ładowanie...</div>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    const NA_STRONE = 10;
+    let wszystkieWiadomosci = [];
+    let aktualnaStrona = 1;
+
+    async function zaladujStrone() {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:8000/api/wiadomosci/', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        wszystkieWiadomosci = await res.json();
+        renderujStrone(1);
+      } catch(e) {
+        console.error('Błąd ładowania wiadomości:', e);
+      }
+    }
+
+    function renderujStrone(strona) {
+      aktualnaStrona = strona;
+      const lista = document.getElementById('wiadomosciLista');
+      const count = document.getElementById('wiadCount');
+
+      if (wszystkieWiadomosci.length === 0) {
+        lista.innerHTML = '<div style="color:var(--text-soft);text-align:center;padding:40px">Brak wiadomości.</div>';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+      }
+
+      const nieprzeczytane = wszystkieWiadomosci.filter(w => !w.przeczytana).length;
+      count.textContent = `${wszystkieWiadomosci.length} wiadomości · ${nieprzeczytane} nieprzeczytanych`;
+
+      const start = (strona - 1) * NA_STRONE;
+      const koniec = start + NA_STRONE;
+      const naStronie = wszystkieWiadomosci.slice(start, koniec);
+
+      lista.innerHTML = naStronie.map(function(w) {
+        const data = new Date(w.created_at).toLocaleDateString('pl-PL');
+        const czas = new Date(w.created_at).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+        const imieEscaped  = w.imie.replace(/'/g, "\\'");
+        const emailEscaped = w.email.replace(/'/g, "\\'");
+
+        return `
+          <div class="wiad-card ${w.przeczytana ? '' : 'nieprzeczytana'}" id="wiad-${w.id}">
+            <div class="wiad-meta">
+              👤 ${w.imie} · 📧 ${w.email} · 📅 ${data} ${czas}
+              ${w.przeczytana
+                ? '<span style="color:var(--success);font-size:0.78rem;margin-left:8px">✅ Przeczytana</span>'
+                : `<span style="background:rgba(124,92,252,0.2);color:var(--accent);padding:2px 8px;border-radius:100px;font-size:0.75rem;margin-left:8px" id="badge-${w.id}">Nowa</span>`
+              }
+            </div>
+            <div class="wiad-temat">${w.temat}</div>
+            <div class="wiad-tresc">${w.tresc}</div>
+            <div class="wiad-actions" id="actions-${w.id}">
+              ${!w.przeczytana ? `
+                <button class="btn-outline" style="font-size:0.82rem;padding:6px 14px"
+                  onclick="oznaczPrzeczytana(${w.id})">
+                  ✓ Przeczytana
+                </button>
+              ` : ''}
+              <button class="btn-outline" style="font-size:0.82rem;padding:6px 14px"
+                onclick="pokazOdpowiedz(${w.id}, '${emailEscaped}', '${imieEscaped}')">
+                ✉️ Odpowiedz
+              </button>
+              <button class="btn-danger" style="font-size:0.82rem;padding:6px 14px"
+                onclick="usunWiadomosc(${w.id})">
+                🗑 Usuń
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      renderujPaginacje();
+    }
+
+    function renderujPaginacje() {
+      const total = Math.ceil(wszystkieWiadomosci.length / NA_STRONE);
+      const pag = document.getElementById('pagination');
+
+      if (total <= 1) {
+        pag.innerHTML = '';
+        return;
+      }
+
+      let html = `<button class="page-btn" onclick="zmienaStrone(${aktualnaStrona - 1})" ${aktualnaStrona === 1 ? 'disabled' : ''}>←</button>`;
+      for (let i = 1; i <= total; i++) {
+        html += `<button class="page-btn ${i === aktualnaStrona ? 'active' : ''}" onclick="zmienaStrone(${i})">${i}</button>`;
+      }
+      html += `<button class="page-btn" onclick="zmienaStrone(${aktualnaStrona + 1})" ${aktualnaStrona === total ? 'disabled' : ''}>→</button>`;
+      pag.innerHTML = html;
+    }
+
+    function zmienaStrone(strona) {
+      const total = Math.ceil(wszystkieWiadomosci.length / NA_STRONE);
+      if (strona < 1 || strona > total) return;
+      renderujStrone(strona);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function oznaczPrzeczytana(id) {
+      const token = localStorage.getItem('token');
+      try {
+        await fetch('http://localhost:8000/api/wiadomosci/' + id + '/przeczytana', {
+          method: 'PATCH',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        const w = wszystkieWiadomosci.find(w => w.id === id);
+        if (w) w.przeczytana = true;
+
+        const card = document.getElementById('wiad-' + id);
+        if (card) {
+          card.classList.remove('nieprzeczytana');
+          const btn = card.querySelector('[onclick*="oznaczPrzeczytana"]');
+          if (btn) {
+            const span = document.createElement('span');
+            span.style.cssText = 'color:var(--success);font-size:0.82rem';
+            span.textContent = '✅ Przeczytana';
+            btn.replaceWith(span);
+          }
+          const badge = document.getElementById('badge-' + id);
+          if (badge) badge.remove();
+        }
+
+        const nieprzeczytane = wszystkieWiadomosci.filter(w => !w.przeczytana).length;
+        document.getElementById('wiadCount').textContent = `${wszystkieWiadomosci.length} wiadomości · ${nieprzeczytane} nieprzeczytanych`;
+      } catch(e) {}
+    }
+
+    async function usunWiadomosc(id) {
+      if (!confirm('Na pewno chcesz usunąć tę wiadomość?')) return;
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:8000/api/wiadomosci/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) {
+          wszystkieWiadomosci = wszystkieWiadomosci.filter(w => w.id !== id);
+          renderujStrone(aktualnaStrona);
+        }
+      } catch(e) {}
+    }
+
+    function pokazOdpowiedz(id, email, imie) {
+      const istniejacy = document.getElementById('odpowiedz-' + id);
+      if (istniejacy) {
+        istniejacy.remove();
+        return;
+      }
+
+      const card = document.getElementById('wiad-' + id);
+      const div = document.createElement('div');
+      div.id = 'odpowiedz-' + id;
+      div.style.cssText = 'margin-top:16px;padding-top:16px;border-top:1px solid var(--border)';
+      div.innerHTML = `
+        <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:8px">
+          Odpowiedź do: <strong>${imie}</strong> (${email})
+        </p>
+        <textarea id="tresc-odpowiedzi-${id}" placeholder="Wpisz odpowiedź..."
+          style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;resize:vertical;min-height:80px;margin-bottom:8px;box-sizing:border-box"></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" style="font-size:0.82rem;padding:6px 14px"
+            onclick="wyslijOdpowiedz(${id}, '${email}', '${imie}')">
+            ✉️ Wyślij odpowiedź
+          </button>
+          <button class="btn-outline" style="font-size:0.82rem;padding:6px 14px"
+            onclick="document.getElementById('odpowiedz-${id}').remove()">
+            Anuluj
+          </button>
+        </div>
+        <div id="odpowiedz-msg-${id}" style="margin-top:8px;font-size:0.82rem"></div>
+      `;
+      card.appendChild(div);
+    }
+
+    function wyslijOdpowiedz(id, email, imie) {
+      const tresc = document.getElementById('tresc-odpowiedzi-' + id).value.trim();
+      const msgEl = document.getElementById('odpowiedz-msg-' + id);
+
+      if (!tresc) {
+        msgEl.style.color = 'var(--accent2)';
+        msgEl.textContent = '❌ Wpisz treść odpowiedzi';
+        return;
+      }
+
+      msgEl.style.color = 'var(--success)';
+      msgEl.textContent = '✅ Odpowiedź wysłana na ' + email;
+
+      setTimeout(function() {
+        const div = document.getElementById('odpowiedz-' + id);
+        if (div) div.remove();
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statystyki — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .chart-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    .chart-card canvas {
+      max-height: 260px;
+    }
+    @media (max-width: 900px) {
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+        <a href="wiadomosci.html" class="admin-nav-link">
+          <span class="sidebar-icon">💬</span> Wiadomości
+          <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+        </a>
+        <a href="kupony.html" class="admin-nav-link">
+          <span class="sidebar-icon">🎟️</span> Kupony
+        </a>
+        <a href="statystyki.html" class="admin-nav-link active">
+          <span class="sidebar-icon">📈</span> Statystyki
+        </a>
+        <a href="powiadomienia.html" class="admin-nav-link">
+  <span class="sidebar-icon">🔔</span> Powiadomienia
+</a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1>Statystyki</h1>
+          <p>Wykresy aktywności platformy</p>
+        </div>
+        <button class="theme-btn" id="themeBtn">🌙</button>
+      </div>
+
+      <div class="stats-grid" style="margin-bottom:24px">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-value" id="statUsers">—</div>
+          <div class="stat-name">Użytkownicy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-value" id="statKursy">—</div>
+          <div class="stat-name">Kursy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-value" id="statPrzychod">—</div>
+          <div class="stat-name">Przychód</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🛒</div>
+          <div class="stat-value" id="statZakupy">—</div>
+          <div class="stat-name">Zakupy</div>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>📅 Rejestracje w czasie</h3>
+          <canvas id="chartRejestracje"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>🛒 Zakupy w czasie</h3>
+          <canvas id="chartZakupy"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>📚 Kursy wg poziomu</h3>
+          <canvas id="chartPoziomy"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>💰 Przychód wg kursów</h3>
+          <canvas id="chartPrzychod"></canvas>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    const chartColor = {
+      accent:  'rgba(124, 92, 252, 0.8)',
+      accent2: 'rgba(255, 107, 107, 0.8)',
+      green:   'rgba(100, 252, 180, 0.8)',
+      blue:    'rgba(100, 200, 255, 0.8)',
+      accentBg:  'rgba(124, 92, 252, 0.15)',
+      accent2Bg: 'rgba(255, 107, 107, 0.15)',
+      greenBg:   'rgba(100, 252, 180, 0.15)',
+    };
+
+    const chartDefaults = {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } }, beginAtZero: true }
+      }
+    };
+
+    async function zaladujStrone() {
+      const token = localStorage.getItem('token');
+
+      try {
+        const res = await fetch('http://localhost:8000/api/users/stats/overview', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('statUsers').textContent    = data.uzytkownicy;
+          document.getElementById('statKursy').textContent    = data.kursy;
+          document.getElementById('statPrzychod').textContent = data.przychod.toFixed(0) + ' zł';
+          document.getElementById('statZakupy').textContent   = data.zakupy;
+        }
+      } catch(e) {}
+
+      try {
+        const res = await fetch('http://localhost:8000/api/users/stats/wykresy', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        new Chart(document.getElementById('chartRejestracje'), {
+          type: 'line',
+          data: {
+            labels: data.rejestracje.map(r => r.dzien),
+            datasets: [{
+              data:            data.rejestracje.map(r => r.liczba),
+              borderColor:     chartColor.accent,
+              backgroundColor: chartColor.accentBg,
+              fill:            true,
+              tension:         0.4,
+              pointRadius:     4,
+              pointBackgroundColor: chartColor.accent
+            }]
+          },
+          options: chartDefaults
+        });
+
+        new Chart(document.getElementById('chartZakupy'), {
+          type: 'line',
+          data: {
+            labels: data.zakupy.map(z => z.dzien),
+            datasets: [{
+              data:            data.zakupy.map(z => z.liczba),
+              borderColor:     chartColor.green,
+              backgroundColor: chartColor.greenBg,
+              fill:            true,
+              tension:         0.4,
+              pointRadius:     4,
+              pointBackgroundColor: chartColor.green
+            }]
+          },
+          options: chartDefaults
+        });
+      } catch(e) {}
+
+      try {
+        const res = await fetch('http://localhost:8000/api/kursy/', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) {
+          const kursy = await res.json();
+          const poziomy = { beginner: 0, mid: 0, adv: 0 };
+          kursy.forEach(k => { if (poziomy[k.poziom] !== undefined) poziomy[k.poziom]++; });
+
+          new Chart(document.getElementById('chartPoziomy'), {
+            type: 'doughnut',
+            data: {
+              labels: ['Początkujący', 'Średni', 'Zaawansowany'],
+              datasets: [{
+                data:            [poziomy.beginner, poziomy.mid, poziomy.adv],
+                backgroundColor: [chartColor.green, chartColor.accent, chartColor.accent2],
+                borderWidth:     0
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'bottom',
+                  labels: { color: 'rgba(255,255,255,0.6)', padding: 16, font: { size: 12 } }
+                }
+              }
+            }
+          });
+
+          const top5 = kursy.slice(0, 5);
+          new Chart(document.getElementById('chartPrzychod'), {
+            type: 'bar',
+            data: {
+              labels: top5.map(k => k.nazwa.length > 20 ? k.nazwa.substring(0, 20) + '...' : k.nazwa),
+              datasets: [{
+                data:            top5.map(k => k.cena),
+                backgroundColor: chartColor.accent,
+                borderRadius:    6,
+                borderSkipped:   false
+              }]
+            },
+            options: chartDefaults
+          });
+        }
+      } catch(e) {}
+    }
+  </script>
+
+</body>
+</html>

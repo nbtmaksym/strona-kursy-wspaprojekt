@@ -35,6 +35,7 @@ window.addEventListener('load', async function() {
   }
 
   inicjalizujThemeBtn();
+  zaladujOstatnioOgladane();
 
   await zaladujMojeKursy(token);
 });
@@ -322,4 +323,34 @@ function pobierzCertyfikatDashboard(kursId, nazwaCursu) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function zaladujOstatnioOgladane() {
+  const ostatnio = JSON.parse(localStorage.getItem('ostatnio') || '{}');
+  const wpisy = Object.entries(ostatnio)
+    .sort((a, b) => new Date(b[1].data) - new Date(a[1].data))
+    .slice(0, 3);
+
+  if (wpisy.length === 0) return;
+
+  const kontener = document.getElementById('ostatnioOgladane');
+  const lista    = document.getElementById('ostatnioLista');
+  if (!kontener || !lista) return;
+
+  kontener.style.display = 'block';
+
+  lista.innerHTML = wpisy.map(function([kursId, info]) {
+    const data = new Date(info.data).toLocaleDateString('pl-PL');
+    return `
+      <div class="dashboard-course-card">
+        <h4>${info.kurs_nazwa}</h4>
+        <p class="course-meta">📖 ${info.lekcja_nazwa}</p>
+        <p class="course-meta" style="margin-top:4px">🕐 ${data}</p>
+        <br>
+        <a href="kurs.html?id=${kursId}" class="btn-primary" style="font-size:0.85rem;padding:8px 16px">
+          Wróć do lekcji →
+        </a>
+      </div>
+    `;
+  }).join('');
 }

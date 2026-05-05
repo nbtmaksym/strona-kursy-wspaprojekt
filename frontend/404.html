@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Nie znaleziono strony</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    .page-404 {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .page-404-inner {
+      max-width: 480px;
+    }
+
+    .page-404-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(6rem, 20vw, 10rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 16px;
+      opacity: 0.15;
+      user-select: none;
+    }
+
+    .page-404-icon {
+      font-size: 4rem;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .page-404-inner h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .page-404-inner p {
+      color: var(--text-soft);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .page-404-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .page-404-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">Learn<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="kursy.html">Kursy</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-btn" id="themeBtn">🌙</button>
+        <a href="login.html" class="btn-outline">Logowanie</a>
+        <a href="register.html" class="btn-primary">Rejestracja</a>
+        <button class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-404">
+    <div class="page-404-inner">
+      <div class="page-404-num">404</div>
+      <span class="page-404-icon">🔍</span>
+      <h1>Strona nie istnieje</h1>
+      <p>Wygląda na to że ta strona gdzieś uciekła. Może wróciła do nauki?<br>Sprawdź adres URL lub wróć na stronę główną.</p>
+      <div class="page-404-btns">
+        <a href="index.html" class="btn-primary">← Strona główna</a>
+        <a href="kursy.html" class="btn-outline">Zobacz kursy</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

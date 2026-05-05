@@ -11,13 +11,11 @@
 <body>
 
   <div class="admin-layout">
-
     <aside class="admin-sidebar">
       <div class="admin-sidebar-logo">
         <a href="../index.html" class="logo">Learn<span>Up</span></a>
         <span class="admin-badge">Admin</span>
       </div>
-
       <nav class="admin-nav">
         <a href="index.html" class="admin-nav-link active">
           <span class="sidebar-icon">📊</span> Dashboard
@@ -28,20 +26,23 @@
         <a href="uzytkownicy.html" class="admin-nav-link">
           <span class="sidebar-icon">👥</span> Użytkownicy
         </a>
-        <a href="#" class="admin-nav-link">
-          <span class="sidebar-icon">💬</span> Wiadomości
-        </a>
-        <a href="#" class="admin-nav-link">
-          <span class="sidebar-icon">⚙️</span> Ustawienia
-        </a>
-        <a href="../login.html" class="admin-nav-link">
+<a href="wiadomosci.html" class="admin-nav-link" style="display:flex;align-items:center">
+  <span class="sidebar-icon">💬</span> Wiadomości
+  <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+</a>
+<a href="kupony.html" class="admin-nav-link">
+  <span class="sidebar-icon">🎟️</span> Kupony
+</a>
+<a href="powiadomienia.html" class="admin-nav-link">
+  <span class="sidebar-icon">🔔</span> Powiadomienia
+</a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
           <span class="sidebar-icon">🚪</span> Wyloguj
         </a>
       </nav>
     </aside>
 
     <main class="admin-content">
-
       <div class="admin-header">
         <div>
           <h1>Panel Administratora</h1>
@@ -53,27 +54,26 @@
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon">👥</div>
-          <div class="stat-value">1 284</div>
+          <div class="stat-value">—</div>
           <div class="stat-name">Użytkownicy</div>
         </div>
         <div class="stat-card">
           <div class="stat-icon">📚</div>
-          <div class="stat-value">9</div>
+          <div class="stat-value">—</div>
           <div class="stat-name">Kursy</div>
         </div>
         <div class="stat-card">
           <div class="stat-icon">💰</div>
-          <div class="stat-value">48 290 zł</div>
+          <div class="stat-value">—</div>
           <div class="stat-name">Przychód</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🏆</div>
-          <div class="stat-value">342</div>
-          <div class="stat-name">Certyfikaty</div>
+          <div class="stat-icon">🛒</div>
+          <div class="stat-value">—</div>
+          <div class="stat-name">Zakupy</div>
         </div>
       </div>
 
-  
       <div class="table-container">
         <div class="table-header">
           <h3>Ostatnio zarejestrowani</h3>
@@ -88,71 +88,18 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Jan Kowalski</td>
-              <td>jan@example.com</td>
-              <td>2025-01-15</td>
-              <td><span class="status status-active">Aktywny</span></td>
-            </tr>
-            <tr>
-              <td>Anna Nowak</td>
-              <td>anna@example.com</td>
-              <td>2025-01-14</td>
-              <td><span class="status status-active">Aktywny</span></td>
-            </tr>
-            <tr>
-              <td>Piotr Wiśniewski</td>
-              <td>piotr@example.com</td>
-              <td>2025-01-13</td>
-              <td><span class="status status-inactive">Nieaktywny</span></td>
-            </tr>
+          <tbody id="recentUsersTable">
+            <tr><td colspan="4" style="color:var(--text-soft);text-align:center;padding:20px">Ładowanie...</td></tr>
           </tbody>
         </table>
       </div>
-
-    
-      <div class="table-container">
-        <div class="table-header">
-          <h3>Najpopularniejsze kursy</h3>
-          <a href="kursy.html" class="btn-outline" style="font-size:0.85rem;padding:8px 16px">Zarządzaj kursami</a>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Nazwa kursu</th>
-              <th>Poziom</th>
-              <th>Zapisani</th>
-              <th>Cena</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>JavaScript — interaktywne strony</td>
-              <td><span class="tag tag-beginner">Początkujący</span></td>
-              <td>342</td>
-              <td>199 zł</td>
-            </tr>
-            <tr>
-              <td>Python — analiza danych</td>
-              <td><span class="tag tag-mid">Średni</span></td>
-              <td>218</td>
-              <td>249 zł</td>
-            </tr>
-            <tr>
-              <td>React.js — nowoczesny frontend</td>
-              <td><span class="tag tag-mid">Średni</span></td>
-              <td>195</td>
-              <td>299 zł</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
     </main>
   </div>
 
   <script src="../js/main.js"></script>
   <script src="../js/admin.js"></script>
+  <script>
+    function zaladujStrone() { zaladujDashboard(); }
+  </script>
 </body>
 </html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kupony — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+        <a href="wiadomosci.html" class="admin-nav-link">
+          <span class="sidebar-icon">💬</span> Wiadomości
+          <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+        </a>
+        <a href="kupony.html" class="admin-nav-link active">
+          <span class="sidebar-icon">🎟️</span> Kupony
+        </a>
+        <a href="statystyki.html" class="admin-nav-link">
+  <span class="sidebar-icon">📈</span> Statystyki
+</a>
+<a href="powiadomienia.html" class="admin-nav-link">
+  <span class="sidebar-icon">🔔</span> Powiadomienia
+</a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1>Kupony rabatowe</h1>
+          <p>Zarządzaj kodami rabatowymi</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="theme-btn" id="themeBtn">🌙</button>
+          <button class="btn-primary" onclick="openModal()">+ Dodaj kupon</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">
+          <h3>Aktywne kupony</h3>
+          <span style="color:var(--text-soft);font-size:0.9rem" id="kuponCount">Ładowanie...</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Kod</th>
+              <th>Rabat</th>
+              <th>Status</th>
+              <th>Data utworzenia</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody id="kuponyTable">
+            <tr><td colspan="5" style="color:var(--text-soft);text-align:center;padding:20px">Ładowanie...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Dodaj nowy kupon</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="form-group">
+          <label>Kod kuponu *</label>
+          <input type="text" id="kuponKod" placeholder="np. LEARNUP20" style="text-transform:uppercase">
+        </div>
+        <div class="form-group">
+          <label>Rabat (%) *</label>
+          <input type="number" id="kuponRabat" placeholder="np. 20" min="1" max="100">
+        </div>
+        <div id="kuponFormMsg" class="form-msg"></div>
+        <button type="button" class="btn-primary btn-full" onclick="dodajKupon()">Zapisz kupon</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    async function zaladujStrone() {
+      await zaladujKupony();
+    }
+
+    async function zaladujKupony() {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:8000/api/kupony/', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        const kupony = await res.json();
+
+        const count = document.getElementById('kuponCount');
+        if (count) count.textContent = kupony.length + ' kuponów';
+
+        const tbody = document.getElementById('kuponyTable');
+        if (!tbody) return;
+
+        if (kupony.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text-soft);text-align:center;padding:20px">Brak kuponów.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = kupony.map(function(k) {
+          const data = new Date(k.created_at).toLocaleDateString('pl-PL');
+          const status = k.aktywny
+            ? '<span class="status status-active">Aktywny</span>'
+            : '<span class="status status-inactive">Nieaktywny</span>';
+          return `
+            <tr>
+              <td><strong style="font-family:monospace;font-size:1rem;color:var(--accent)">${k.kod}</strong></td>
+              <td><strong>${k.rabat}%</strong></td>
+              <td>${status}</td>
+              <td>${data}</td>
+              <td class="td-actions">
+                <button class="btn-danger" style="font-size:0.8rem;padding:6px 12px"
+                  onclick="usunKupon(${k.id}, this)">Usuń</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch(e) {}
+    }
+
+    async function dodajKupon() {
+      const kod   = document.getElementById('kuponKod').value.trim().toUpperCase();
+      const rabat = parseInt(document.getElementById('kuponRabat').value);
+      const msg   = document.getElementById('kuponFormMsg');
+      const token = localStorage.getItem('token');
+
+      msg.className = 'form-msg';
+
+      if (!kod) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Wpisz kod kuponu';
+        return;
+      }
+
+      if (!rabat || rabat < 1 || rabat > 100) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Rabat musi być od 1 do 100%';
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:8000/api/kupony/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ kod: kod, rabat: rabat })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          msg.className = 'form-msg error';
+          msg.textContent = '❌ ' + (data.detail || 'Błąd dodawania kuponu');
+          return;
+        }
+
+        msg.className = 'form-msg success';
+        msg.textContent = '✅ Kupon dodany!';
+
+        setTimeout(function() {
+          closeModal();
+          zaladujKupony();
+        }, 1000);
+      } catch(e) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Błąd połączenia z serwerem';
+      }
+    }
+
+    async function usunKupon(id, btn) {
+      if (!confirm('Na pewno chcesz usunąć ten kupon?')) return;
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:8000/api/kupony/' + id, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.ok) {
+          btn.closest('tr').remove();
+          const count = document.getElementById('kuponCount');
+          if (count) {
+            const rows = document.querySelectorAll('#kuponyTable tr');
+            count.textContent = rows.length + ' kuponów';
+          }
+        }
+      } catch(e) {}
+    }
+
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('kuponKod').value = '';
+      document.getElementById('kuponRabat').value = '';
+      document.getElementById('kuponFormMsg').className = 'form-msg';
+    }
+
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
+
+</body>
+</html>

@@ -95,7 +95,6 @@
   display: block;
 }
 
-/* Pojedyncza lekcja w liście */
 .kurs-lekcja-item {
   display: flex;
   align-items: center;
@@ -180,7 +179,6 @@
   font-weight: 700;
 }
 
-/* Symulowane wideo */
 .kurs-wideo {
   margin: 32px 40px;
   border-radius: 16px;

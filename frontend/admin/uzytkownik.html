@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil użytkownika — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link active">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+                <a href="wiadomosci.html" class="admin-nav-link" style="display:flex;align-items:center">
+  <span class="sidebar-icon">💬</span> Wiadomości
+  <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+</a>
+<a href="kupony.html" class="admin-nav-link">
+  <span class="sidebar-icon">🎟️</span> Kupony
+</a>
+<a href="statystyki.html" class="admin-nav-link">
+  <span class="sidebar-icon">📈</span> Statystyki
+</a>
+<a href="powiadomienia.html" class="admin-nav-link">
+  <span class="sidebar-icon">🔔</span> Powiadomienia
+</a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <a href="uzytkownicy.html" style="color:var(--text-soft);font-size:0.88rem;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px">← Wróć do użytkowników</a>
+          <h1 id="userNazwa">Ładowanie...</h1>
+          <p id="userEmail" style="color:var(--text-soft)"></p>
+        </div>
+        <button class="theme-btn" id="themeBtn">🌙</button>
+      </div>
+
+      <div class="stats-grid" style="margin-bottom:32px">
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="dataRejestracji" style="font-size:1.1rem">—</div>
+          <div class="stat-name">Data rejestracji</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-value" id="liczbaKursow">—</div>
+          <div class="stat-name">Zakupione kursy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="liczbaUkonczonych">—</div>
+          <div class="stat-name">Ukończone kursy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔵</div>
+          <div class="stat-value" id="statusKonto">—</div>
+          <div class="stat-name">Status konta</div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">
+          <h3>Zakupione kursy i postęp</h3>
+        </div>
+        <div id="kursyContainer">
+          <div style="color:var(--text-soft);text-align:center;padding:30px">Ładowanie...</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+
+    async function zaladujStrone() {
+      const params = new URLSearchParams(window.location.search);
+      const userId = parseInt(params.get('id'));
+      if (!userId) {
+        window.location.href = 'uzytkownicy.html';
+        return;
+      }
+
+      const token = localStorage.getItem('token');
+
+      try {
+        const res = await fetch(API + '/api/users/' + userId, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) {
+          window.location.href = 'uzytkownicy.html';
+          return;
+        }
+        const user = await res.json();
+
+        document.getElementById('userNazwa').textContent    = user.name;
+        document.getElementById('userEmail').textContent    = user.email;
+        document.getElementById('dataRejestracji').textContent = new Date(user.created_at).toLocaleDateString('pl-PL');
+        document.getElementById('statusKonto').textContent  = user.is_active ? 'Aktywny' : 'Nieaktywny';
+        document.title = user.name + ' — LearnUp Admin';
+      } catch(e) {}
+
+      try {
+        const res = await fetch(API + '/api/users/' + userId + '/kursy', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        const kursy = await res.json();
+
+        document.getElementById('liczbaKursow').textContent     = kursy.length;
+        document.getElementById('liczbaUkonczonych').textContent = kursy.filter(k => k.procent === 100).length;
+
+        const kontener = document.getElementById('kursyContainer');
+
+        if (kursy.length === 0) {
+          kontener.innerHTML = '<div style="color:var(--text-soft);text-align:center;padding:30px">Użytkownik nie posiada żadnych kursów.</div>';
+          return;
+        }
+
+        const tagMap = {
+          beginner: '<span class="tag tag-beginner">Początkujący</span>',
+          mid:      '<span class="tag tag-mid">Średni</span>',
+          adv:      '<span class="tag tag-adv">Zaawansowany</span>'
+        };
+
+        kontener.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Nazwa kursu</th>
+                <th>Poziom</th>
+                <th>Postęp</th>
+                <th>Lekcje</th>
+                <th>Data zakupu</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${kursy.map(function(k) {
+                const kolorPaska = k.procent === 100 ? '#64fcb4' : k.procent > 50 ? 'var(--accent)' : 'var(--accent2)';
+                const status = k.procent === 100
+                  ? '<span class="status status-active">Ukończony</span>'
+                  : '<span class="status" style="background:rgba(124,92,252,0.15);color:var(--accent)">W trakcie</span>';
+                return `
+                  <tr>
+                    <td>${k.nazwa}</td>
+                    <td>${tagMap[k.poziom] || k.poziom}</td>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:10px;min-width:140px">
+                        <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+                          <div style="width:${k.procent}%;height:100%;background:${kolorPaska};border-radius:3px;transition:width 0.5s"></div>
+                        </div>
+                        <span style="font-size:0.82rem;color:var(--text-soft);flex-shrink:0">${k.procent}%</span>
+                      </div>
+                    </td>
+                    <td>${k.ukonczone} / ${k.liczba_lekc}</td>
+                    <td>${new Date(k.data_zakupu).toLocaleDateString('pl-PL')}</td>
+                    <td>${status}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      } catch(e) {}
+    }
+  </script>
+
+</body>
+</html>

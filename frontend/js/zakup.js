@@ -1,27 +1,27 @@
 emailjs.init('OauThvHsZTmta6WmX');
-window.addEventListener('load', function() {
-  if (!localStorage.getItem('token')) {
-    window.location.href = 'login.html';
-  }
-});
-
 
 const EMAILJS_SERVICE_ID  = 'service_04jy9fz';
 const EMAILJS_TEMPLATE_ID = 'template_7hin0gf';
 
-
 const KURSY_INFO = {
   1: { nazwa: "HTML & CSS — od zera do bohatera",   ikona: "🌐", tag: "tag-beginner", tagNazwa: "Początkujący", meta: "⏱ 12h · 48 lekcji", cena: 149 },
   2: { nazwa: "JavaScript — interaktywne strony",   ikona: "💻", tag: "tag-beginner", tagNazwa: "Początkujący", meta: "⏱ 18h · 72 lekcje",  cena: 199 },
-  3: { nazwa: "Python — pierwsze kroki",             ikona: "🐍", tag: "tag-beginner", tagNazwa: "Początkujący", meta: "⏱ 14h · 55 lekcji", cena: 179 },
-  4: { nazwa: "React.js — nowoczesny frontend",      ikona: "⚛️", tag: "tag-mid",      tagNazwa: "Średni",       meta: "⏱ 22h · 90 lekcji", cena: 299 },
-  5: { nazwa: "Python — analiza danych",             ikona: "📊", tag: "tag-mid",      tagNazwa: "Średni",       meta: "⏱ 20h · 80 lekcji", cena: 249 },
-  6: { nazwa: "UI/UX Design — podstawy",             ikona: "🎨", tag: "tag-mid",      tagNazwa: "Średni",       meta: "⏱ 16h · 64 lekcje", cena: 229 },
+  3: { nazwa: "Python — pierwsze kroki",             ikona: "🐍", tag: "tag-beginner", tagNazwa: "Początkujący", meta: "⏱ 14h · 55 lekcji",  cena: 179 },
+  4: { nazwa: "React.js — nowoczesny frontend",      ikona: "⚛️", tag: "tag-mid",      tagNazwa: "Średni",       meta: "⏱ 22h · 90 lekcji",  cena: 299 },
+  5: { nazwa: "Python — analiza danych",             ikona: "📊", tag: "tag-mid",      tagNazwa: "Średni",       meta: "⏱ 20h · 80 lekcji",  cena: 249 },
+  6: { nazwa: "UI/UX Design — podstawy",             ikona: "🎨", tag: "tag-mid",      tagNazwa: "Średni",       meta: "⏱ 16h · 64 lekcje",  cena: 229 },
   7: { nazwa: "Node.js & REST API",                  ikona: "🖥️", tag: "tag-adv",      tagNazwa: "Zaawansowany", meta: "⏱ 25h · 100 lekcji", cena: 349 },
   8: { nazwa: "UI/UX Design — Figma Pro",            ikona: "✏️", tag: "tag-adv",      tagNazwa: "Zaawansowany", meta: "⏱ 16h · 64 lekcje",  cena: 279 },
   9: { nazwa: "Machine Learning z Pythonem",         ikona: "🤖", tag: "tag-adv",      tagNazwa: "Zaawansowany", meta: "⏱ 30h · 120 lekcji", cena: 399 },
 };
 
+let aktywnyKupon = null; // { kod, rabat }
+
+window.addEventListener('load', function() {
+  if (!localStorage.getItem('token')) {
+    window.location.href = 'login.html';
+  }
+});
 
 window.addEventListener('load', function() {
   const params = new URLSearchParams(window.location.search);
@@ -29,25 +29,24 @@ window.addEventListener('load', function() {
   const kurs = KURSY_INFO[kursId];
 
   if (kurs) {
-    document.getElementById('zakupIcon').textContent    = kurs.ikona;
-    document.getElementById('zakupNazwa').textContent   = kurs.nazwa;
-    document.getElementById('zakupTag').className       = 'tag ' + kurs.tag;
-    document.getElementById('zakupTag').textContent     = kurs.tagNazwa;
-    document.getElementById('zakupMeta').textContent    = kurs.meta;
-    document.getElementById('zakupCena').textContent    = kurs.cena + ' zł';
-    document.getElementById('zakupTotal').textContent   = kurs.cena + ' zł';
-    document.getElementById('zakupBtnCena').textContent = kurs.cena + ' zł';
+    document.getElementById('zakupIcon').textContent        = kurs.ikona;
+    document.getElementById('zakupNazwa').textContent       = kurs.nazwa;
+    document.getElementById('zakupTag').className           = 'tag ' + kurs.tag;
+    document.getElementById('zakupTag').textContent         = kurs.tagNazwa;
+    document.getElementById('zakupMeta').textContent        = kurs.meta;
+    document.getElementById('zakupCena').textContent        = kurs.cena + ' zł';
+    document.getElementById('zakupTotal').textContent       = kurs.cena + ' zł';
+    document.getElementById('zakupBtnCena').textContent     = kurs.cena + ' zł';
     document.getElementById('successKursNazwa').textContent = kurs.nazwa;
   }
 });
 
 
 function formatujKarte(input) {
-  let value = input.value.replace(/\D/g, ''); // usuń nie-cyfry
-  let formatted = value.match(/.{1,4}/g);      // podziel po 4 cyfry
+  let value = input.value.replace(/\D/g, '');
+  let formatted = value.match(/.{1,4}/g);
   input.value = formatted ? formatted.join(' ') : value;
 }
-
 
 function formatujDate(input) {
   let value = input.value.replace(/\D/g, '');
@@ -58,23 +57,88 @@ function formatujDate(input) {
 }
 
 
+async function sprawdzKupon() {
+  const kod    = document.getElementById('kuponInput').value.trim().toUpperCase();
+  const msg    = document.getElementById('kuponMsg');
+  const btn    = document.getElementById('kuponBtn');
+
+  if (!kod) {
+    msg.style.color = '#ff8080';
+    msg.textContent = '❌ Wpisz kod kuponu';
+    return;
+  }
+
+  btn.textContent = 'Sprawdzanie...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('http://localhost:8000/api/kupony/sprawdz/' + kod);
+    const data = await res.json();
+
+    if (!res.ok) {
+      msg.style.color = '#ff8080';
+      msg.textContent = '❌ ' + data.detail;
+      aktywnyKupon = null;
+      aktualizujCene();
+    } else {
+      aktywnyKupon = { kod: data.kod, rabat: data.rabat };
+      msg.style.color = '#64fcb4';
+      msg.textContent = '✅ Kupon aktywny! Rabat ' + data.rabat + '%';
+      aktualizujCene();
+    }
+  } catch(e) {
+    msg.style.color = '#ff8080';
+    msg.textContent = '❌ Błąd połączenia';
+    aktywnyKupon = null;
+  }
+
+  btn.textContent = 'Zastosuj';
+  btn.disabled = false;
+}
+
+
+function aktualizujCene() {
+  const params = new URLSearchParams(window.location.search);
+  const kursId = parseInt(params.get('id')) || 1;
+  const kurs   = KURSY_INFO[kursId];
+  if (!kurs) return;
+
+  const cenaBaza = kurs.cena;
+  let cenaFinalna = cenaBaza;
+
+  const rabatRow = document.getElementById('zakupRabatRow');
+  const rabatEl  = document.getElementById('zakupRabat');
+
+  if (aktywnyKupon) {
+    const rabatKwota = Math.round(cenaBaza * aktywnyKupon.rabat / 100);
+    cenaFinalna = cenaBaza - rabatKwota;
+    rabatEl.textContent = '-' + rabatKwota + ' zł';
+    rabatRow.style.display = 'flex';
+  } else {
+    rabatRow.style.display = 'none';
+  }
+
+  document.getElementById('zakupTotal').textContent   = cenaFinalna + ' zł';
+  document.getElementById('zakupBtnCena').textContent = cenaFinalna + ' zł';
+}
+
+
 const zakupForm = document.getElementById('zakupForm');
 
 zakupForm.addEventListener('submit', async function(event) {
   event.preventDefault();
 
-  const imie          = document.getElementById('imie').value.trim();
-  const email         = document.getElementById('email').value.trim();
-  const karta         = document.getElementById('karta').value.trim();
-  const dataWaznosci  = document.getElementById('dataWaznosci').value.trim();
-  const cvv           = document.getElementById('cvv').value.trim();
-  const msg           = document.getElementById('zakupMsg');
+  const imie         = document.getElementById('imie').value.trim();
+  const email        = document.getElementById('email').value.trim();
+  const karta        = document.getElementById('karta').value.trim();
+  const dataWaznosci = document.getElementById('dataWaznosci').value.trim();
+  const cvv          = document.getElementById('cvv').value.trim();
+  const msg          = document.getElementById('zakupMsg');
 
   msg.className = 'form-msg';
   msg.style.display = 'none';
 
-
-  if (imie === '' || email === '') {
+  if (!imie || !email) {
     msg.className = 'form-msg error';
     msg.textContent = '❌ Uzupełnij imię i email';
     return;
@@ -113,51 +177,55 @@ zakupForm.addEventListener('submit', async function(event) {
   btn.textContent = 'Przetwarzanie...';
   btn.disabled = true;
 
-localStorage.setItem('user_name', imie);
-localStorage.setItem('user_email', email);
+  localStorage.setItem('user_name', imie);
+  localStorage.setItem('user_email', email);
 
-try {
-  // Wyślij zakup do backendu
-  const token = localStorage.getItem('token');
-  if (token) {
-    const zakupRes = await fetch('http://localhost:8000/api/zakupy/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({ kurs_id: kursId })
-    });
-
-    if (!zakupRes.ok) {
-      const err = await zakupRes.json();
-      if (!err.detail.includes('już zakupiony')) {
-        msg.className = 'form-msg error';
-        msg.textContent = '❌ ' + err.detail;
-        btn.textContent = 'Zapłać ' + kurs.cena + ' zł →';
-        btn.disabled = false;
-        return;
-      }
-    }
+  // Oblicz cene finalną
+  let cenaFinalna = kurs.cena;
+  if (aktywnyKupon) {
+    cenaFinalna = Math.round(kurs.cena * (1 - aktywnyKupon.rabat / 100));
   }
 
-  // Wyślij email przez EmailJS
-  await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-    imie:        imie,
-    nazwa_kursu: kurs.nazwa,
-    cena:        kurs.cena,
-    data:        new Date().toLocaleDateString('pl-PL'),
-    to_email:    email,
-  });
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const zakupRes = await fetch('http://localhost:8000/api/zakupy/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ kurs_id: kursId })
+      });
 
-  document.getElementById('successModal').classList.add('open');
+      if (!zakupRes.ok) {
+        const err = await zakupRes.json();
+        if (!err.detail.includes('już zakupiony')) {
+          msg.className = 'form-msg error';
+          msg.textContent = '❌ ' + err.detail;
+          btn.textContent = 'Zapłać ' + cenaFinalna + ' zł →';
+          btn.disabled = false;
+          return;
+        }
+      }
+    }
 
-} catch (error) {
-  console.error('Błąd:', error);
-  document.getElementById('successModal').classList.add('open');
+    // Wyslij email przez EmailJS
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      imie:        imie,
+      nazwa_kursu: kurs.nazwa,
+      cena:        cenaFinalna,
+      data:        new Date().toLocaleDateString('pl-PL'),
+      to_email:    email,
+    });
 
-} finally {
-  btn.textContent = 'Zapłać ' + kurs.cena + ' zł →';
-  btn.disabled = false;
-}
+    document.getElementById('successModal').classList.add('open');
+
+  } catch(error) {
+    console.error('Błąd:', error);
+    document.getElementById('successModal').classList.add('open');
+  } finally {
+    btn.textContent = 'Zapłać ' + cenaFinalna + ' zł →';
+    btn.disabled = false;
+  }
 });

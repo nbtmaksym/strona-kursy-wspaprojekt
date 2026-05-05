@@ -57,9 +57,9 @@ const KURSY = {
       {
         nazwa: "Moduł 3: DOM",
         lekcje: [
-          { id: 9,  nazwa: "Czym jest DOM?",         opis: "Drzewo dokumentu, węzły, jak JavaScript widzi HTML." },
+          { id: 9,  nazwa: "Czym jest DOM?",        opis: "Drzewo dokumentu, węzły, jak JavaScript widzi HTML." },
           { id: 10, nazwa: "Manipulacja DOM",       opis: "getElementById, querySelector, innerHTML, classList." },
-          { id: 11, nazwa: "Zdarzenia (Events)",     opis: "addEventListener, click, submit, keydown." },
+          { id: 11, nazwa: "Zdarzenia (Events)",    opis: "addEventListener, click, submit, keydown." },
           { id: 12, nazwa: "Projekt: Kalkulator",   opis: "Budujemy działający kalkulator od zera." },
         ]
       },
@@ -171,28 +171,28 @@ const KURSY = {
       {
         nazwa: "Moduł 1: Podstawy designu",
         lekcje: [
-          { id: 1,  nazwa: "Zasady designu",           opis: "Kontrast, wyrównanie, powtarzanie, bliskość (CARP)." },
-          { id: 2,  nazwa: "Teoria kolorów",           opis: "Koło kolorów, palety, psychologia kolorów." },
-          { id: 3,  nazwa: "Typografia",               opis: "Dobór czcionek, hierarchia, czytelność." },
-          { id: 4,  nazwa: "Siatka i spacing",         opis: "Systemy siatki, białe przestrzenie, rytm." },
+          { id: 1,  nazwa: "Zasady designu",          opis: "Kontrast, wyrównanie, powtarzanie, bliskość (CARP)." },
+          { id: 2,  nazwa: "Teoria kolorów",          opis: "Koło kolorów, palety, psychologia kolorów." },
+          { id: 3,  nazwa: "Typografia",              opis: "Dobór czcionek, hierarchia, czytelność." },
+          { id: 4,  nazwa: "Siatka i spacing",        opis: "Systemy siatki, białe przestrzenie, rytm." },
         ]
       },
       {
         nazwa: "Moduł 2: UX Research",
         lekcje: [
-          { id: 5,  nazwa: "Persony użytkowników",     opis: "Tworzenie person, user stories, empathy map." },
-          { id: 6,  nazwa: "User Journey Map",         opis: "Mapowanie ścieżki użytkownika, touchpoints." },
-          { id: 7,  nazwa: "Wireframing",              opis: "Szkice, lo-fi wireframes, narzędzia." },
-          { id: 8,  nazwa: "Testy użyteczności",       opis: "Planowanie testów, moderowanie, analiza wyników." },
+          { id: 5,  nazwa: "Persony użytkowników",    opis: "Tworzenie person, user stories, empathy map." },
+          { id: 6,  nazwa: "User Journey Map",        opis: "Mapowanie ścieżki użytkownika, touchpoints." },
+          { id: 7,  nazwa: "Wireframing",             opis: "Szkice, lo-fi wireframes, narzędzia." },
+          { id: 8,  nazwa: "Testy użyteczności",      opis: "Planowanie testów, moderowanie, analiza wyników." },
         ]
       },
       {
         nazwa: "Moduł 3: Figma",
         lekcje: [
-          { id: 9,  nazwa: "Interfejs Figmy",          opis: "Narzędzia, warstwy, strony, skróty klawiszowe." },
-          { id: 10, nazwa: "Komponenty i Auto Layout", opis: "Tworzenie komponentów, warianty, Auto Layout." },
-          { id: 11, nazwa: "Prototypowanie",           opis: "Połączenia między ekranami, animacje przejść." },
-          { id: 12, nazwa: "Projekt: App Design",      opis: "Projektujesz kompletny interfejs aplikacji mobilnej." },
+          { id: 9,  nazwa: "Interfejs Figmy",         opis: "Narzędzia, warstwy, strony, skróty klawiszowe." },
+          { id: 10, nazwa: "Komponenty i Auto Layout",opis: "Tworzenie komponentów, warianty, Auto Layout." },
+          { id: 11, nazwa: "Prototypowanie",          opis: "Połączenia między ekranami, animacje przejść." },
+          { id: 12, nazwa: "Projekt: App Design",     opis: "Projektujesz kompletny interfejs aplikacji mobilnej." },
         ]
       }
     ]
@@ -206,26 +206,26 @@ const KURSY = {
         lekcje: [
           { id: 1,  nazwa: "Czym jest Node.js?",      opis: "Event loop, architektura, npm, pierwsze skrypty." },
           { id: 2,  nazwa: "Moduły i fs",             opis: "CommonJS, ES Modules, praca z plikami." },
-          { id: 3,  nazwa: "Asynchroniczność",         opis: "Callbacks, Promises, async/await w Node." },
-          { id: 4,  nazwa: "HTTP moduł",               opis: "Tworzenie serwera HTTP bez frameworka." },
+          { id: 3,  nazwa: "Asynchroniczność",        opis: "Callbacks, Promises, async/await w Node." },
+          { id: 4,  nazwa: "HTTP moduł",              opis: "Tworzenie serwera HTTP bez frameworka." },
         ]
       },
       {
         nazwa: "Moduł 2: Express.js",
         lekcje: [
-          { id: 5,  nazwa: "Express podstawy",         opis: "Routing, middleware, req, res, next." },
-          { id: 6,  nazwa: "REST API",                 opis: "Metody HTTP, zasoby, konwencje nazewnictwa." },
-          { id: 7,  nazwa: "Middleware",               opis: "Własny middleware, CORS, body-parser, morgan." },
-          { id: 8,  nazwa: "Obsługa błędów",           opis: "Error handling middleware, kody statusów HTTP." },
+          { id: 5,  nazwa: "Express podstawy",        opis: "Routing, middleware, req, res, next." },
+          { id: 6,  nazwa: "REST API",                opis: "Metody HTTP, zasoby, konwencje nazewnictwa." },
+          { id: 7,  nazwa: "Middleware",              opis: "Własny middleware, CORS, body-parser, morgan." },
+          { id: 8,  nazwa: "Obsługa błędów",          opis: "Error handling middleware, kody statusów HTTP." },
         ]
       },
       {
         nazwa: "Moduł 3: Baza danych i Auth",
         lekcje: [
-          { id: 9,  nazwa: "MongoDB i Mongoose",       opis: "Modele, schematy, CRUD operations." },
-          { id: 10, nazwa: "JWT Auth",                 opis: "Rejestracja, logowanie, tokeny JWT, middleware auth." },
-          { id: 11, nazwa: "Walidacja",                opis: "Joi, express-validator, sanityzacja danych." },
-          { id: 12, nazwa: "Deployment",               opis: "Heroku, Railway, zmienne środowiskowe, produkcja." },
+          { id: 9,  nazwa: "MongoDB i Mongoose",      opis: "Modele, schematy, CRUD operations." },
+          { id: 10, nazwa: "JWT Auth",                opis: "Rejestracja, logowanie, tokeny JWT, middleware auth." },
+          { id: 11, nazwa: "Walidacja",               opis: "Joi, express-validator, sanityzacja danych." },
+          { id: 12, nazwa: "Deployment",              opis: "Heroku, Railway, zmienne środowiskowe, produkcja." },
         ]
       }
     ]
@@ -237,28 +237,28 @@ const KURSY = {
       {
         nazwa: "Moduł 1: Zaawansowana Figma",
         lekcje: [
-          { id: 1,  nazwa: "Design Tokens",            opis: "Zmienne, kolory, typografia jako tokeny." },
-          { id: 2,  nazwa: "Design System",            opis: "Tworzenie spójnego systemu komponentów." },
-          { id: 3,  nazwa: "Zaawansowane komponenty",  opis: "Zagnieżdżone komponenty, swap, Boolean." },
-          { id: 4,  nazwa: "Figma Variables",          opis: "Tryby (dark/light), liczby, stringi jako zmienne." },
+          { id: 1,  nazwa: "Design Tokens",           opis: "Zmienne, kolory, typografia jako tokeny." },
+          { id: 2,  nazwa: "Design System",           opis: "Tworzenie spójnego systemu komponentów." },
+          { id: 3,  nazwa: "Zaawansowane komponenty", opis: "Zagnieżdżone komponenty, swap, Boolean." },
+          { id: 4,  nazwa: "Figma Variables",         opis: "Tryby (dark/light), liczby, stringi jako zmienne." },
         ]
       },
       {
         nazwa: "Moduł 2: Zaawansowane prototypowanie",
         lekcje: [
-          { id: 5,  nazwa: "Interakcje i animacje",    opis: "Smart animate, spring animations, overlays." },
-          { id: 6,  nazwa: "Micro-interactions",       opis: "Hover, focus, pressed states, feedback." },
-          { id: 7,  nazwa: "Prototyp mobilny",         opis: "Gesty, scrolling, fixed elements." },
-          { id: 8,  nazwa: "Handoff dla deweloperów",  opis: "Inspect mode, eksport assets, dokumentacja." },
+          { id: 5,  nazwa: "Interakcje i animacje",   opis: "Smart animate, spring animations, overlays." },
+          { id: 6,  nazwa: "Micro-interactions",      opis: "Hover, focus, pressed states, feedback." },
+          { id: 7,  nazwa: "Prototyp mobilny",        opis: "Gesty, scrolling, fixed elements." },
+          { id: 8,  nazwa: "Handoff dla deweloperów", opis: "Inspect mode, eksport assets, dokumentacja." },
         ]
       },
       {
         nazwa: "Moduł 3: Projekt końcowy",
         lekcje: [
-          { id: 9,  nazwa: "Brief i research",         opis: "Analiza konkurencji, moodboard, kierunek designu." },
-          { id: 10, nazwa: "Wireframes",               opis: "Lo-fi szkice, architecture informacji." },
-          { id: 11, nazwa: "Hi-fi design",             opis: "Kompletny projekt z design systemem." },
-          { id: 12, nazwa: "Prezentacja projektu",     opis: "Case study, mockupy, portfolio." },
+          { id: 9,  nazwa: "Brief i research",        opis: "Analiza konkurencji, moodboard, kierunek designu." },
+          { id: 10, nazwa: "Wireframes",              opis: "Lo-fi szkice, architecture informacji." },
+          { id: 11, nazwa: "Hi-fi design",            opis: "Kompletny projekt z design systemem." },
+          { id: 12, nazwa: "Prezentacja projektu",    opis: "Case study, mockupy, portfolio." },
         ]
       }
     ]
@@ -270,28 +270,293 @@ const KURSY = {
       {
         nazwa: "Moduł 1: Podstawy ML",
         lekcje: [
-          { id: 1,  nazwa: "Czym jest ML?",            opis: "Supervised vs unsupervised, overfitting, bias-variance." },
-          { id: 2,  nazwa: "Przygotowanie danych",     opis: "Czyszczenie, normalizacja, train/test split." },
-          { id: 3,  nazwa: "Scikit-learn",             opis: "Pipeline, fit, predict, score — podstawy." },
-          { id: 4,  nazwa: "Metryki",                  opis: "Accuracy, precision, recall, F1, confusion matrix." },
+          { id: 1,  nazwa: "Czym jest ML?",           opis: "Supervised vs unsupervised, overfitting, bias-variance." },
+          { id: 2,  nazwa: "Przygotowanie danych",    opis: "Czyszczenie, normalizacja, train/test split." },
+          { id: 3,  nazwa: "Scikit-learn",            opis: "Pipeline, fit, predict, score — podstawy." },
+          { id: 4,  nazwa: "Metryki",                 opis: "Accuracy, precision, recall, F1, confusion matrix." },
         ]
       },
       {
         nazwa: "Moduł 2: Algorytmy klasyczne",
         lekcje: [
-          { id: 5,  nazwa: "Regresja liniowa",         opis: "Gradient descent, MSE, wielomiany." },
-          { id: 6,  nazwa: "Regresja logistyczna",     opis: "Klasyfikacja binarna, sigmoid, threshold." },
-          { id: 7,  nazwa: "Drzewa decyzyjne",         opis: "Random Forest, feature importance, pruning." },
-          { id: 8,  nazwa: "SVM i KNN",                opis: "Support vectors, kernel trick, k-nearest neighbors." },
+          { id: 5,  nazwa: "Regresja liniowa",        opis: "Gradient descent, MSE, wielomiany." },
+          { id: 6,  nazwa: "Regresja logistyczna",    opis: "Klasyfikacja binarna, sigmoid, threshold." },
+          { id: 7,  nazwa: "Drzewa decyzyjne",        opis: "Random Forest, feature importance, pruning." },
+          { id: 8,  nazwa: "SVM i KNN",               opis: "Support vectors, kernel trick, k-nearest neighbors." },
         ]
       },
       {
         nazwa: "Moduł 3: Sieci neuronowe",
         lekcje: [
-          { id: 9,  nazwa: "Wprowadzenie do NN",       opis: "Perceptron, warstwy, funkcje aktywacji." },
-          { id: 10, nazwa: "TensorFlow i Keras",       opis: "Sequential API, Dense layers, kompilacja, trening." },
-          { id: 11, nazwa: "CNN — obrazy",             opis: "Convolution, pooling, klasyfikacja obrazów." },
-          { id: 12, nazwa: "Projekt końcowy",          opis: "Trenujemy model na prawdziwym datasecie." },
+          { id: 9,  nazwa: "Wprowadzenie do NN",      opis: "Perceptron, warstwy, funkcje aktywacji." },
+          { id: 10, nazwa: "TensorFlow i Keras",      opis: "Sequential API, Dense layers, kompilacja, trening." },
+          { id: 11, nazwa: "CNN — obrazy",            opis: "Convolution, pooling, klasyfikacja obrazów." },
+          { id: 12, nazwa: "Projekt końcowy",         opis: "Trenujemy model na prawdziwym datasecie." },
+        ]
+      }
+    ]
+  },
+  10: {
+    id: 10,
+    nazwa: "Python — pierwsze kroki",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Wprowadzenie",
+        lekcje: [
+          { id: 1, nazwa: "Instalacja Pythona",  opis: "Pobieranie i konfiguracja środowiska. VS Code." },
+          { id: 2, nazwa: "Zmienne i typy",      opis: "int, float, str, bool. Dynamiczne typowanie." },
+          { id: 3, nazwa: "Warunki",             opis: "if, elif, else. Operatory porównania." },
+          { id: 4, nazwa: "Pętle",               opis: "for, while, range(). break, continue." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Struktury danych",
+        lekcje: [
+          { id: 5, nazwa: "Listy",      opis: "Tworzenie, indeksowanie, metody: append, remove, sort." },
+          { id: 6, nazwa: "Słowniki",   opis: "Pary klucz-wartość, iterowanie, metody get." },
+          { id: 7, nazwa: "Funkcje",    opis: "def, parametry, return, *args, **kwargs." },
+          { id: 8, nazwa: "Moduły",     opis: "import, from...import. Standardowa biblioteka." },
+        ]
+      }
+    ]
+  },
+  11: {
+    id: 11,
+    nazwa: "SQL — bazy danych od podstaw",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Podstawy SQL",
+        lekcje: [
+          { id: 1,  nazwa: "Czym jest baza danych?",  opis: "Relacyjne bazy danych, tabele, klucze główne." },
+          { id: 2,  nazwa: "SELECT i WHERE",          opis: "Pobieranie danych, filtrowanie, sortowanie." },
+          { id: 3,  nazwa: "INSERT, UPDATE, DELETE",  opis: "Modyfikowanie danych w tabelach." },
+          { id: 4,  nazwa: "Typy danych",             opis: "INT, VARCHAR, DATE, BOOLEAN i inne." },
+          { id: 5,  nazwa: "ORDER BY i LIMIT",        opis: "Sortowanie wyników i ograniczanie liczby rekordów." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Zaawansowane zapytania",
+        lekcje: [
+          { id: 6,  nazwa: "JOIN — łączenie tabel",   opis: "INNER JOIN, LEFT JOIN, RIGHT JOIN." },
+          { id: 7,  nazwa: "GROUP BY i agregacje",    opis: "COUNT, SUM, AVG, MIN, MAX." },
+          { id: 8,  nazwa: "Podzapytania",            opis: "Subqueries, EXISTS, IN." },
+          { id: 9,  nazwa: "Indeksy",                 opis: "Optymalizacja zapytań przez indeksowanie." },
+          { id: 10, nazwa: "Projekt: Sklep online",   opis: "Projektujemy i wypełniamy bazę sklepu." },
+        ]
+      }
+    ]
+  },
+  12: {
+    id: 12,
+    nazwa: "Python — analiza danych",
+    moduly: [
+      {
+        nazwa: "Moduł 1: NumPy",
+        lekcje: [
+          { id: 1,  nazwa: "Wprowadzenie do NumPy",   opis: "Tablice ndarray, operacje wektorowe, broadcasting." },
+          { id: 2,  nazwa: "Operacje na tablicach",   opis: "Indeksowanie, slicing, reshape, transpose." },
+          { id: 3,  nazwa: "Funkcje matematyczne",    opis: "Agregacje, statystyki, generowanie danych." },
+          { id: 4,  nazwa: "Algebra liniowa",         opis: "Macierze, iloczyn skalarny, wartości własne." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Pandas",
+        lekcje: [
+          { id: 5,  nazwa: "Series i DataFrame",      opis: "Tworzenie, indeksowanie, podstawowe operacje." },
+          { id: 6,  nazwa: "Wczytywanie danych",      opis: "CSV, Excel, JSON. Obsługa brakujących danych." },
+          { id: 7,  nazwa: "Filtrowanie i grupowanie",opis: "loc, iloc, groupby, pivot_table." },
+          { id: 8,  nazwa: "Łączenie danych",         opis: "merge, concat, join. Praca z wieloma źródłami." },
+        ]
+      },
+      {
+        nazwa: "Moduł 3: Wizualizacja",
+        lekcje: [
+          { id: 9,  nazwa: "Matplotlib podstawy",     opis: "Wykresy liniowe, słupkowe, kołowe. Konfiguracja." },
+          { id: 10, nazwa: "Seaborn",                 opis: "Wykresy statystyczne, heatmapy, pairplot." },
+          { id: 11, nazwa: "Projekt: Analiza danych", opis: "Kompleksowa analiza prawdziwego datasetu." },
+        ]
+      }
+    ]
+  },
+  13: {
+    id: 13,
+    nazwa: "Power BI — analiza biznesowa",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Podstawy Power BI",
+        lekcje: [
+          { id: 1,  nazwa: "Interfejs Power BI",      opis: "Desktop vs Service, nawigacja, importowanie danych." },
+          { id: 2,  nazwa: "Power Query",             opis: "Transformacja danych, czyszczenie, łączenie źródeł." },
+          { id: 3,  nazwa: "Model danych",            opis: "Relacje między tabelami, klucze, kardynalność." },
+          { id: 4,  nazwa: "Podstawy DAX",            opis: "Miary, kolumny obliczeniowe, kontekst filtra." },
+          { id: 5,  nazwa: "Wizualizacje podstawowe", opis: "Wykresy słupkowe, liniowe, kołowe, tabele." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Zaawansowane raporty",
+        lekcje: [
+          { id: 6,  nazwa: "Zaawansowany DAX",        opis: "CALCULATE, FILTER, ALL, time intelligence." },
+          { id: 7,  nazwa: "Zaawansowane wizualizacje", opis: "Mapy, waterfall, decomposition tree." },
+          { id: 8,  nazwa: "Interaktywność",          opis: "Slicery, drillthrough, cross-filtering." },
+          { id: 9,  nazwa: "Publikowanie raportów",   opis: "Power BI Service, udostępnianie, harmonogramy." },
+          { id: 10, nazwa: "Projekt: Dashboard sprzedaży", opis: "Budujemy kompletny dashboard dla działu sprzedaży." },
+        ]
+      }
+    ]
+  },
+  14: {
+    id: 14,
+    nazwa: "Machine Learning z Pythonem",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Podstawy ML",
+        lekcje: [
+          { id: 1,  nazwa: "Czym jest ML?",           opis: "Supervised vs unsupervised, overfitting, bias-variance." },
+          { id: 2,  nazwa: "Przygotowanie danych",    opis: "Czyszczenie, normalizacja, train/test split." },
+          { id: 3,  nazwa: "Scikit-learn",            opis: "Pipeline, fit, predict, score — podstawy." },
+          { id: 4,  nazwa: "Metryki",                 opis: "Accuracy, precision, recall, F1, confusion matrix." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Algorytmy klasyczne",
+        lekcje: [
+          { id: 5,  nazwa: "Regresja liniowa",        opis: "Gradient descent, MSE, wielomiany." },
+          { id: 6,  nazwa: "Regresja logistyczna",    opis: "Klasyfikacja binarna, sigmoid, threshold." },
+          { id: 7,  nazwa: "Drzewa decyzyjne",        opis: "Random Forest, feature importance, pruning." },
+          { id: 8,  nazwa: "SVM i KNN",               opis: "Support vectors, kernel trick, k-nearest neighbors." },
+        ]
+      },
+      {
+        nazwa: "Moduł 3: Sieci neuronowe",
+        lekcje: [
+          { id: 9,  nazwa: "Wprowadzenie do NN",      opis: "Perceptron, warstwy, funkcje aktywacji." },
+          { id: 10, nazwa: "TensorFlow i Keras",      opis: "Sequential API, Dense layers, kompilacja, trening." },
+          { id: 11, nazwa: "CNN — obrazy",            opis: "Convolution, pooling, klasyfikacja obrazów." },
+          { id: 12, nazwa: "Projekt końcowy",         opis: "Trenujemy model na prawdziwym datasecie." },
+        ]
+      }
+    ]
+  },
+  15: {
+    id: 15,
+    nazwa: "UI/UX Design — podstawy",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Podstawy designu",
+        lekcje: [
+          { id: 1,  nazwa: "Zasady designu",          opis: "Kontrast, wyrównanie, powtarzanie, bliskość (CARP)." },
+          { id: 2,  nazwa: "Teoria kolorów",          opis: "Koło kolorów, palety, psychologia kolorów." },
+          { id: 3,  nazwa: "Typografia",              opis: "Dobór czcionek, hierarchia, czytelność." },
+          { id: 4,  nazwa: "Siatka i spacing",        opis: "Systemy siatki, białe przestrzenie, rytm." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: UX Research",
+        lekcje: [
+          { id: 5,  nazwa: "Persony użytkowników",    opis: "Tworzenie person, user stories, empathy map." },
+          { id: 6,  nazwa: "User Journey Map",        opis: "Mapowanie ścieżki użytkownika, touchpoints." },
+          { id: 7,  nazwa: "Wireframing",             opis: "Szkice, lo-fi wireframes, narzędzia." },
+          { id: 8,  nazwa: "Testy użyteczności",      opis: "Planowanie testów, moderowanie, analiza wyników." },
+        ]
+      },
+      {
+        nazwa: "Moduł 3: Figma",
+        lekcje: [
+          { id: 9,  nazwa: "Interfejs Figmy",         opis: "Narzędzia, warstwy, strony, skróty klawiszowe." },
+          { id: 10, nazwa: "Komponenty i Auto Layout",opis: "Tworzenie komponentów, warianty, Auto Layout." },
+          { id: 11, nazwa: "Prototypowanie",          opis: "Połączenia między ekranami, animacje przejść." },
+          { id: 12, nazwa: "Projekt: App Design",     opis: "Projektujesz kompletny interfejs aplikacji mobilnej." },
+        ]
+      }
+    ]
+  },
+  16: {
+    id: 16,
+    nazwa: "UI/UX Design — Figma Pro",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Zaawansowana Figma",
+        lekcje: [
+          { id: 1,  nazwa: "Design Tokens",           opis: "Zmienne, kolory, typografia jako tokeny." },
+          { id: 2,  nazwa: "Design System",           opis: "Tworzenie spójnego systemu komponentów." },
+          { id: 3,  nazwa: "Zaawansowane komponenty", opis: "Zagnieżdżone komponenty, swap, Boolean." },
+          { id: 4,  nazwa: "Figma Variables",         opis: "Tryby (dark/light), liczby, stringi jako zmienne." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Zaawansowane prototypowanie",
+        lekcje: [
+          { id: 5,  nazwa: "Interakcje i animacje",   opis: "Smart animate, spring animations, overlays." },
+          { id: 6,  nazwa: "Micro-interactions",      opis: "Hover, focus, pressed states, feedback." },
+          { id: 7,  nazwa: "Prototyp mobilny",        opis: "Gesty, scrolling, fixed elements." },
+          { id: 8,  nazwa: "Handoff dla deweloperów", opis: "Inspect mode, eksport assets, dokumentacja." },
+        ]
+      },
+      {
+        nazwa: "Moduł 3: Projekt końcowy",
+        lekcje: [
+          { id: 9,  nazwa: "Brief i research",        opis: "Analiza konkurencji, moodboard, kierunek designu." },
+          { id: 10, nazwa: "Wireframes",              opis: "Lo-fi szkice, architecture informacji." },
+          { id: 11, nazwa: "Hi-fi design",            opis: "Kompletny projekt z design systemem." },
+          { id: 12, nazwa: "Prezentacja projektu",    opis: "Case study, mockupy, portfolio." },
+        ]
+      }
+    ]
+  },
+  17: {
+    id: 17,
+    nazwa: "Grafika komputerowa — Adobe PS",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Podstawy Photoshopa",
+        lekcje: [
+          { id: 1,  nazwa: "Interfejs i narzędzia",   opis: "Panele, warstwy, podstawowe narzędzia zaznaczania." },
+          { id: 2,  nazwa: "Warstwy i maski",         opis: "Zarządzanie warstwami, maski, tryby mieszania." },
+          { id: 3,  nazwa: "Kolory i korekcja",       opis: "Krzywe, poziomy, balans kolorów, odcień/nasycenie." },
+          { id: 4,  nazwa: "Retusz zdjęć",            opis: "Healing brush, clone stamp, liquify, smart objects." },
+          { id: 5,  nazwa: "Typografia",              opis: "Tekst, czcionki, efekty tekstowe, style." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Projekty praktyczne",
+        lekcje: [
+          { id: 6,  nazwa: "Compositing",             opis: "Łączenie zdjęć, wycinanie tła, cienie." },
+          { id: 7,  nazwa: "Grafiki social media",    opis: "Bannery, posty Instagram, thumbnails YouTube." },
+          { id: 8,  nazwa: "Mockupy",                 opis: "Tworzenie mockupów produktów i stron." },
+          { id: 9,  nazwa: "Eksport i optymalizacja", opis: "Formaty plików, eksport dla web i druku." },
+          { id: 10, nazwa: "Projekt końcowy",         opis: "Tworzysz kompletną kampanię graficzną." },
+        ]
+      }
+    ]
+  },
+  18: {
+    id: 18,
+    nazwa: "Motion Design — After Effects",
+    moduly: [
+      {
+        nazwa: "Moduł 1: Podstawy AE",
+        lekcje: [
+          { id: 1,  nazwa: "Interfejs After Effects",  opis: "Kompozycje, warstwy, timeline, panel efektów." },
+          { id: 2,  nazwa: "Keyframe i animacja",      opis: "Klatki kluczowe, krzywe animacji, easing." },
+          { id: 3,  nazwa: "Tekst i typografia",       opis: "Animacje tekstu, presety, animatory." },
+          { id: 4,  nazwa: "Kształty i maski",         opis: "Shape layers, maski, efekty ścieżki." },
+        ]
+      },
+      {
+        nazwa: "Moduł 2: Zaawansowane techniki",
+        lekcje: [
+          { id: 5,  nazwa: "Expresje",                 opis: "JavaScript w AE, wiggle, loopOut, time." },
+          { id: 6,  nazwa: "Motion tracking",          opis: "Śledzenie ruchu, stabilizacja, corner pin." },
+          { id: 7,  nazwa: "Efekty wizualne",          opis: "Particle systems, glow, distortion, color grading." },
+          { id: 8,  nazwa: "Integracja z Premiere",    opis: "Dynamic Link, workflow, eksport sekwencji." },
+        ]
+      },
+      {
+        nazwa: "Moduł 3: Projekty",
+        lekcje: [
+          { id: 9,  nazwa: "Animacja logo",            opis: "Tworzysz animowane logo od podstaw." },
+          { id: 10, nazwa: "Explainer video",          opis: "Krótki film wyjaśniający — koncepcja do eksportu." },
+          { id: 11, nazwa: "Eksport i delivery",       opis: "Formaty eksportu, optymalizacja dla web i social." },
         ]
       }
     ]
@@ -302,6 +567,7 @@ let aktualnyKursId   = 1;
 let aktualnaLekcjaId = 1;
 let ukonczone        = new Set();
 const token          = localStorage.getItem('token');
+
 
 window.addEventListener('load', async function() {
   const params = new URLSearchParams(window.location.search);
@@ -321,7 +587,9 @@ window.addEventListener('load', async function() {
 
   zaladujKurs(aktualnyKursId);
   wybierzLekcje(1);
+  inicjalizujOceny();
 });
+
 
 async function zaladujPostepZAPI() {
   try {
@@ -346,6 +614,7 @@ async function zaladujPostepZAPI() {
   }
 }
 
+
 async function zapiszPostepDoAPI(lekcjaId) {
   if (!token) return;
   try {
@@ -362,6 +631,7 @@ async function zapiszPostepDoAPI(lekcjaId) {
   }
 }
 
+
 async function odznaczPostepWAPI(lekcjaId) {
   if (!token) return;
   try {
@@ -377,6 +647,7 @@ async function odznaczPostepWAPI(lekcjaId) {
     console.error('Blad odznaczania postepu:', e);
   }
 }
+
 
 function zaladujKurs(kursId) {
   const kurs = KURSY[kursId];
@@ -423,6 +694,7 @@ function zaladujKurs(kursId) {
   aktualizujPostep();
 }
 
+
 function wybierzLekcje(lekcjaId) {
   const kurs = KURSY[aktualnyKursId];
   if (!kurs) return;
@@ -465,8 +737,8 @@ function wybierzLekcje(lekcjaId) {
   document.querySelector('.kurs-main').scrollTo(0, 0);
 }
 
-async function ukończLekcję(e) {
-  if (e) e.preventDefault();
+
+async function ukończLekcję() {
   const btn = document.getElementById('btnUkoncz');
 
   if (ukonczone.has(aktualnaLekcjaId)) {
@@ -508,6 +780,7 @@ async function ukończLekcję(e) {
   aktualizujPostep();
 }
 
+
 function aktualizujPostep() {
   const kurs = KURSY[aktualnyKursId];
   if (!kurs) return;
@@ -525,6 +798,7 @@ function aktualizujPostep() {
     pokazCertyfikat();
   }
 }
+
 
 function pobierzWszystkieLekcje() {
   const kurs = KURSY[aktualnyKursId];
@@ -563,6 +837,7 @@ function toggleModul(modulDiv) {
   modulDiv.classList.toggle('open');
 }
 
+
 function pokazCertyfikat() {
   if (document.getElementById('btnCertyfikat')) return;
 
@@ -578,6 +853,7 @@ function pokazCertyfikat() {
 
   prawaStrona.insertBefore(btnCert, prawaStrona.querySelector('#btnUkoncz'));
 }
+
 
 function pobierzCertyfikat() {
   const kurs = KURSY[aktualnyKursId];
@@ -648,4 +924,78 @@ function pobierzCertyfikat() {
     console.error('Blad certyfikatu:', e);
     alert('Nie udalo sie pobrac certyfikatu.');
   }
+}
+
+
+async function inicjalizujOceny() {
+  if (!token) return;
+  const kursId = aktualnyKursId;
+
+  try {
+    const res = await fetch('http://localhost:8000/api/oceny/' + kursId);
+    if (res.ok) {
+      const data = await res.json();
+      const info = document.getElementById('ocenaInfo');
+      if (info && data.liczba > 0) {
+        info.textContent = 'Średnia ocena: ' + data.srednia + '/5 (' + data.liczba + ' ocen)';
+      }
+    }
+  } catch(e) {}
+
+  try {
+    const res = await fetch('http://localhost:8000/api/oceny/' + kursId + '/moja', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.gwiazdki > 0) zaznaczGwiazdki(data.gwiazdki);
+    }
+  } catch(e) {}
+
+  document.querySelectorAll('.gwiazdka').forEach(function(el) {
+    el.addEventListener('mouseover', function() {
+      const val = parseInt(el.getAttribute('data-val'));
+      document.querySelectorAll('.gwiazdka').forEach(function(g) {
+        g.style.color = parseInt(g.getAttribute('data-val')) <= val ? '#fbbf24' : 'var(--border)';
+      });
+    });
+
+    el.addEventListener('mouseout', function() {
+      const aktywna = document.querySelector('.gwiazdka.aktywna');
+      const aktywnaVal = aktywna ? parseInt(aktywna.getAttribute('data-val')) : 0;
+      document.querySelectorAll('.gwiazdka').forEach(function(g) {
+        g.style.color = parseInt(g.getAttribute('data-val')) <= aktywnaVal ? '#fbbf24' : 'var(--border)';
+      });
+    });
+
+    el.addEventListener('click', async function() {
+      const val = parseInt(el.getAttribute('data-val'));
+      zaznaczGwiazdki(val);
+      try {
+        await fetch('http://localhost:8000/api/oceny/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ kurs_id: kursId, gwiazdki: val })
+        });
+        const info = document.getElementById('ocenaInfo');
+        if (info) info.textContent = 'Twoja ocena: ' + val + '/5 ★';
+      } catch(e) {}
+    });
+  });
+}
+
+function zaznaczGwiazdki(val) {
+  document.querySelectorAll('.gwiazdka').forEach(function(g) {
+    const gVal = parseInt(g.getAttribute('data-val'));
+    if (gVal <= val) {
+      g.classList.add('aktywna');
+      g.style.color = '#fbbf24';
+    } else {
+      g.classList.remove('aktywna');
+      g.style.color = 'var(--border)';
+    }
+  });
 }

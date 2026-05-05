@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — LearnUp</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -88,6 +89,10 @@
           </div>
         </div>
 
+        <div id="ostatnioOgladane" style="display:none;margin-bottom:32px">
+        <h2 class="section-title">Ostatnio oglądane</h2>
+        <div class="dashboard-courses" id="ostatnioLista"></div>
+        </div>
         <h2 class="section-title">Kontynuuj naukę</h2>
         <div class="dashboard-courses" id="aktywneKursy">
           <div style="color:var(--text-soft);font-size:0.9rem">Ładowanie kursów...</div>
@@ -143,5 +148,6 @@
 
   <script src="js/api.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/chat.js"></script>
 </body>
 </html>

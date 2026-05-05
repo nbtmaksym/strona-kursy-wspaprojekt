@@ -26,7 +26,20 @@
         <a href="uzytkownicy.html" class="admin-nav-link">
           <span class="sidebar-icon">👥</span> Użytkownicy
         </a>
-        <a href="../login.html" class="admin-nav-link">
+                <a href="wiadomosci.html" class="admin-nav-link" style="display:flex;align-items:center">
+  <span class="sidebar-icon">💬</span> Wiadomości
+  <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+</a>
+<a href="kupony.html" class="admin-nav-link">
+  <span class="sidebar-icon">🎟️</span> Kupony
+</a>
+<a href="statystyki.html" class="admin-nav-link">
+  <span class="sidebar-icon">📈</span> Statystyki
+</a>
+<a href="powiadomienia.html" class="admin-nav-link">
+  <span class="sidebar-icon">🔔</span> Powiadomienia
+</a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
           <span class="sidebar-icon">🚪</span> Wyloguj
         </a>
       </nav>
@@ -36,7 +49,7 @@
       <div class="admin-header">
         <div>
           <h1>Zarządzanie kursami</h1>
-          <p>Dodawaj, edytuj i usuwaj kursy</p>
+          <p>Dodawaj i usuwaj kursy</p>
         </div>
         <div style="display:flex;gap:12px;align-items:center">
           <button class="theme-btn" id="themeBtn">🌙</button>
@@ -44,16 +57,14 @@
         </div>
       </div>
 
-
       <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Szukaj kursu..." oninput="filterTable()">
       </div>
 
-    
       <div class="table-container">
         <div class="table-header">
           <h3>Wszystkie kursy</h3>
-          <span style="color:var(--text-soft);font-size:0.9rem" id="courseCount">9 kursów</span>
+          <span style="color:var(--text-soft);font-size:0.9rem" id="courseCount">Ładowanie...</span>
         </div>
         <table>
           <thead>
@@ -61,101 +72,12 @@
               <th>Nazwa kursu</th>
               <th>Poziom</th>
               <th>Cena</th>
-              <th>Zapisani</th>
+              <th>Czas / Lekcje</th>
               <th>Akcje</th>
             </tr>
           </thead>
           <tbody id="coursesTable">
-            <tr>
-              <td>HTML & CSS — od zera do bohatera</td>
-              <td><span class="tag tag-beginner">Początkujący</span></td>
-              <td>149 zł</td>
-              <td>156</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>JavaScript — interaktywne strony</td>
-              <td><span class="tag tag-beginner">Początkujący</span></td>
-              <td>199 zł</td>
-              <td>342</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Python — pierwsze kroki</td>
-              <td><span class="tag tag-beginner">Początkujący</span></td>
-              <td>179 zł</td>
-              <td>98</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>React.js — nowoczesny frontend</td>
-              <td><span class="tag tag-mid">Średni</span></td>
-              <td>299 zł</td>
-              <td>195</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Python — analiza danych</td>
-              <td><span class="tag tag-mid">Średni</span></td>
-              <td>249 zł</td>
-              <td>218</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>UI/UX Design — podstawy</td>
-              <td><span class="tag tag-mid">Średni</span></td>
-              <td>229 zł</td>
-              <td>134</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Node.js & REST API</td>
-              <td><span class="tag tag-adv">Zaawansowany</span></td>
-              <td>349 zł</td>
-              <td>87</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>UI/UX Design — Figma Pro</td>
-              <td><span class="tag tag-adv">Zaawansowany</span></td>
-              <td>279 zł</td>
-              <td>76</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Machine Learning z Pythonem</td>
-              <td><span class="tag tag-adv">Zaawansowany</span></td>
-              <td>399 zł</td>
-              <td>63</td>
-              <td class="td-actions">
-                <button class="btn-outline" style="font-size:0.8rem;padding:6px 12px" onclick="editCourse(this)">Edytuj</button>
-                <button class="btn-danger" onclick="deleteCourse(this)">Usuń</button>
-              </td>
-            </tr>
+            <tr><td colspan="5" style="color:var(--text-soft);text-align:center;padding:20px">Ładowanie...</td></tr>
           </tbody>
         </table>
       </div>
@@ -168,7 +90,6 @@
         <h2 id="modalTitle">Dodaj nowy kurs</h2>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-
       <form id="courseForm">
         <div class="form-group">
           <label>Nazwa kursu *</label>
@@ -203,5 +124,8 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/admin.js"></script>
+  <script>
+    function zaladujStrone() { zaladujKursy(); }
+  </script>
 </body>
 </html>

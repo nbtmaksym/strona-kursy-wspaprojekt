@@ -1,4 +1,5 @@
 const API = 'http://localhost:8000';
+
 function getToken() {
   return localStorage.getItem('token');
 }
@@ -11,7 +12,6 @@ function getUser() {
 function isLoggedIn() {
   return !!getToken();
 }
-
 
 function logout() {
   localStorage.removeItem('token');
@@ -28,10 +28,7 @@ async function apiFetch(endpoint, options = {}) {
     ...(token ? { 'Authorization': 'Bearer ' + token } : {}),
     ...(options.headers || {})
   };
-
-  const res = await fetch(API + endpoint, { ...options, headers });
-
-  return res;
+  return await fetch(API + endpoint, { ...options, headers });
 }
 
 
@@ -45,6 +42,23 @@ function aktualizujNavbar() {
 
     navRight.innerHTML = `
       <button class="theme-btn" id="themeBtn">🌙</button>
+      <div class="nav-bell" id="navBell">
+        <button class="bell-btn" onclick="toggleBell()" title="Powiadomienia">
+          🔔
+          <span class="bell-badge" id="bellBadge" style="display:none">0</span>
+        </button>
+        <div class="bell-dropdown" id="bellDropdown">
+          <div class="bell-header">
+            <span>Powiadomienia</span>
+            <button onclick="oznaczWszystkiePrzeczytane()" style="background:none;border:none;color:var(--accent);font-size:0.78rem;cursor:pointer">
+              Oznacz wszystkie
+            </button>
+          </div>
+          <div id="bellLista">
+            <div style="padding:20px;text-align:center;color:var(--text-soft);font-size:0.85rem">Ładowanie...</div>
+          </div>
+        </div>
+      </div>
       <div class="nav-user">
         <button class="nav-avatar-btn" onclick="toggleUserMenu()">
           <div class="nav-avatar">${inicjaly}</div>
@@ -67,6 +81,8 @@ function aktualizujNavbar() {
         <span></span><span></span><span></span>
       </button>
     `;
+
+    zaladujPowiadomienia();
   } else {
     navRight.innerHTML = `
       <button class="theme-btn" id="themeBtn">🌙</button>
@@ -80,21 +96,112 @@ function aktualizujNavbar() {
 
   inicjalizujThemeBtn();
   inicjalizujHamburger();
-  } 
+}
 
+
+async function zaladujPowiadomienia() {
+  const token = getToken();
+  if (!token) return;
+
+  try {
+    const res = await fetch(API + '/api/powiadomienia/', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!res.ok) return;
+    const powiadomienia = await res.json();
+
+    const nieprzeczytane = powiadomienia.filter(p => !p.przeczytane).length;
+    const badge = document.getElementById('bellBadge');
+    if (badge) {
+      if (nieprzeczytane > 0) {
+        badge.textContent = nieprzeczytane;
+        badge.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    const lista = document.getElementById('bellLista');
+    if (!lista) return;
+
+    if (powiadomienia.length === 0) {
+      lista.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-soft);font-size:0.85rem">Brak powiadomień</div>';
+      return;
+    }
+
+    lista.innerHTML = powiadomienia.map(function(p) {
+      const data = new Date(p.created_at).toLocaleDateString('pl-PL');
+      return `
+        <div class="bell-item ${p.przeczytane ? '' : 'nieprzeczytane'}" onclick="oznaczPrzeczytane(${p.id}, this)">
+          <div class="bell-item-tresc">${p.tresc}</div>
+          <div class="bell-item-data">${data}</div>
+        </div>
+      `;
+    }).join('');
+  } catch(e) {}
+}
+
+
+async function oznaczPrzeczytane(id, el) {
+  const token = getToken();
+  try {
+    await fetch(API + '/api/powiadomienia/' + id + '/przeczytane', {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (el) el.classList.remove('nieprzeczytane');
+
+    const nieprzeczytane = document.querySelectorAll('.bell-item.nieprzeczytane').length;
+    const badge = document.getElementById('bellBadge');
+    if (badge) {
+      if (nieprzeczytane > 0) {
+        badge.textContent = nieprzeczytane;
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  } catch(e) {}
+}
+
+
+async function oznaczWszystkiePrzeczytane() {
+  const token = getToken();
+  try {
+    await fetch(API + '/api/powiadomienia/przeczytane-wszystkie', {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    document.querySelectorAll('.bell-item.nieprzeczytane').forEach(el => {
+      el.classList.remove('nieprzeczytane');
+    });
+    const badge = document.getElementById('bellBadge');
+    if (badge) badge.style.display = 'none';
+  } catch(e) {}
+}
+
+
+function toggleBell() {
+  const dropdown = document.getElementById('bellDropdown');
+  const userDropdown = document.getElementById('userDropdown');
+  if (userDropdown) userDropdown.classList.remove('open');
+  if (dropdown) dropdown.classList.toggle('open');
+}
 
 function toggleUserMenu() {
   const dropdown = document.getElementById('userDropdown');
-  if (dropdown) {
-    dropdown.classList.toggle('open');
-  }
+  const bellDropdown = document.getElementById('bellDropdown');
+  if (bellDropdown) bellDropdown.classList.remove('open');
+  if (dropdown) dropdown.classList.toggle('open');
 }
 
-// Zamknij dropdown po kliknięciu poza nim
 document.addEventListener('click', function(e) {
-  const dropdown = document.getElementById('userDropdown');
-  if (dropdown && !e.target.closest('.nav-user')) {
-    dropdown.classList.remove('open');
+  const userDropdown = document.getElementById('userDropdown');
+  if (userDropdown && !e.target.closest('.nav-user')) {
+    userDropdown.classList.remove('open');
+  }
+  const bellDropdown = document.getElementById('bellDropdown');
+  if (bellDropdown && !e.target.closest('.nav-bell')) {
+    bellDropdown.classList.remove('open');
   }
 });
 
@@ -114,7 +221,6 @@ function requireAdmin() {
   }
   return true;
 }
-
 
 function inicjalizujThemeBtn() {
   const themeBtn = document.getElementById('themeBtn');

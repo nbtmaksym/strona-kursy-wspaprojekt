@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Powiadomienia — LearnUp Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <a href="../index.html" class="logo">Learn<span>Up</span></a>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="index.html" class="admin-nav-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="kursy.html" class="admin-nav-link">
+          <span class="sidebar-icon">📚</span> Kursy
+        </a>
+        <a href="uzytkownicy.html" class="admin-nav-link">
+          <span class="sidebar-icon">👥</span> Użytkownicy
+        </a>
+        <a href="wiadomosci.html" class="admin-nav-link">
+          <span class="sidebar-icon">💬</span> Wiadomości
+          <span id="wiadBadge" style="display:none;background:#ff6b6b;color:white;font-size:0.7rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:auto"></span>
+        </a>
+        <a href="kupony.html" class="admin-nav-link">
+          <span class="sidebar-icon">🎟️</span> Kupony
+        </a>
+        <a href="statystyki.html" class="admin-nav-link">
+          <span class="sidebar-icon">📈</span> Statystyki
+        </a>
+        <a href="powiadomienia.html" class="admin-nav-link active">
+          <span class="sidebar-icon">🔔</span> Powiadomienia
+        </a>
+        <a href="#" onclick="logout()" class="admin-nav-link">
+          <span class="sidebar-icon">🚪</span> Wyloguj
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1>Powiadomienia</h1>
+          <p>Wyślij powiadomienia do użytkowników platformy</p>
+        </div>
+        <button class="theme-btn" id="themeBtn">🌙</button>
+      </div>
+
+      <!-- Formularz wysyłania -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:600px;margin-bottom:32px">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px">Wyślij nowe powiadomienie</h3>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label style="font-size:0.85rem;color:var(--text-soft);font-weight:500;display:block;margin-bottom:6px">Odbiorca</label>
+          <select id="odbiorca" style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none">
+            <option value="wszyscy">👥 Wszyscy użytkownicy</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label style="font-size:0.85rem;color:var(--text-soft);font-weight:500;display:block;margin-bottom:6px">Treść powiadomienia *</label>
+          <textarea id="trescPow" placeholder="np. Nowy kurs dostępny! Sprawdź ofertę." style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;resize:vertical;min-height:100px;box-sizing:border-box"></textarea>
+        </div>
+
+        <div id="powMsg" class="form-msg" style="margin-bottom:12px"></div>
+
+        <button type="button" class="btn-primary" id="wyslijBtn" onclick="wyslijPowiadomienie()">
+          🔔 Wyślij powiadomienie
+        </button>
+      </div>
+      <div class="table-container">
+        <div class="table-header">
+          <h3>Ostatnio wysłane</h3>
+          <span id="powCount" style="color:var(--text-soft);font-size:0.9rem"></span>
+        </div>
+        <div id="historiaLista">
+          <div style="color:var(--text-soft);text-align:center;padding:30px">Ładowanie...</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    async function zaladujStrone() {
+      await zaladujUzytkownikowDoSelecta();
+      await zaladujHistorie();
+    }
+
+    async function zaladujUzytkownikowDoSelecta() {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:8000/api/users/', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        const users = await res.json();
+        const select = document.getElementById('odbiorca');
+
+        users.filter(u => !u.is_admin).forEach(function(u) {
+          const option = document.createElement('option');
+          option.value = u.id;
+          option.textContent = '👤 ' + u.name + ' (' + u.email + ')';
+          select.appendChild(option);
+        });
+      } catch(e) {}
+    }
+
+    async function wyslijPowiadomienie() {
+      const odbiorca = document.getElementById('odbiorca').value;
+      const tresc    = document.getElementById('trescPow').value.trim();
+      const msg      = document.getElementById('powMsg');
+      const btn      = document.getElementById('wyslijBtn');
+      const token    = localStorage.getItem('token');
+
+      msg.className = 'form-msg';
+
+      if (!tresc) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Wpisz treść powiadomienia';
+        return;
+      }
+
+      btn.textContent = 'Wysyłanie...';
+      btn.disabled = true;
+
+      try {
+        const body = odbiorca === 'wszyscy'
+          ? { tresc: tresc }
+          : { tresc: tresc, user_id: parseInt(odbiorca) };
+
+        const res = await fetch('http://localhost:8000/api/powiadomienia/admin/wyslij', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (res.ok) {
+          msg.className = 'form-msg success';
+          const odbiorcy = odbiorca === 'wszyscy' ? 'wszystkich użytkowników' : 'wybranego użytkownika';
+          msg.textContent = '✅ Powiadomienie wysłane do ' + odbiorcy;
+          document.getElementById('trescPow').value = '';
+          await zaladujHistorie();
+        } else {
+          msg.className = 'form-msg error';
+          msg.textContent = '❌ Błąd wysyłania';
+        }
+      } catch(e) {
+        msg.className = 'form-msg error';
+        msg.textContent = '❌ Błąd połączenia z serwerem';
+      }
+
+      btn.textContent = '🔔 Wyślij powiadomienie';
+      btn.disabled = false;
+    }
+
+    async function zaladujHistorie() {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:8000/api/users/', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        const users = await res.json();
+
+        const lista = document.getElementById('historiaLista');
+        const count = document.getElementById('powCount');
+
+        if (users.length === 0) {
+          lista.innerHTML = '<div style="color:var(--text-soft);text-align:center;padding:30px">Brak użytkowników.</div>';
+          return;
+        }
+
+        const firstUser = users.find(u => !u.is_admin);
+        if (!firstUser) {
+          lista.innerHTML = '<div style="color:var(--text-soft);text-align:center;padding:30px">Brak użytkowników.</div>';
+          return;
+        }
+        lista.innerHTML = `
+          <div style="padding:20px;color:var(--text-soft);font-size:0.9rem;text-align:center">
+            Powiadomienia są widoczne po stronie użytkowników w dzwonku 🔔 na stronie głównej.
+          </div>
+        `;
+        if (count) count.textContent = '';
+      } catch(e) {}
+    }
+  </script>
+
+</body>
+</html>

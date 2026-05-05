@@ -6,6 +6,7 @@
   <title>Kurs — LearnUp</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/kurs.css">
+  <link rel="stylesheet" href="css/chat.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -56,6 +57,17 @@
         <h3>O tej lekcji</h3>
         <p id="opisLekcji">Wybierz lekcję z panelu po lewej stronie aby rozpocząć naukę.</p>
       </div>
+      <div class="kurs-ocena" id="kursOcena" style="padding:0 40px 24px">
+  <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px">Oceń ten kurs</h3>
+  <div class="gwiazdki" id="gwiazdki">
+    <span class="gwiazdka" data-val="1">★</span>
+    <span class="gwiazdka" data-val="2">★</span>
+    <span class="gwiazdka" data-val="3">★</span>
+    <span class="gwiazdka" data-val="4">★</span>
+    <span class="gwiazdka" data-val="5">★</span>
+  </div>
+  <p id="ocenaInfo" style="font-size:0.82rem;color:var(--text-soft);margin-top:8px"></p>
+</div>
 
       <div class="kurs-nawigacja">
         <button type="button" class="btn-outline" id="btnPoprzednia" onclick="poprzedniaLekcja()">← Poprzednia</button>
@@ -66,5 +78,6 @@
   </div>
 
   <script src="js/kurs.js"></script>
+  <script src="js/chat.js"></script>
 </body>
 </html>

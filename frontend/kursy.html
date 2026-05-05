@@ -5,7 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kursy — LearnUp</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin: 40px 0 20px;
+    }
+    .page-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text-soft);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .page-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .page-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-arrow:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .page-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+    .courses-grid.fade-out { opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
+    .courses-grid.fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.3s ease, transform 0.3s ease; }
+
+    .courses-search {
+      max-width: 420px;
+      margin: 0 auto 28px;
+      position: relative;
+    }
+    .courses-search input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px 12px 44px;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .courses-search input:focus { border-color: var(--accent); }
+    .courses-search input::placeholder { color: var(--text-soft); }
+    .courses-search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+    .search-clear {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 1rem;
+      display: none;
+      padding: 4px;
+    }
+    .search-clear.visible { display: block; }
+  </style>
 </head>
 <body>
 
@@ -37,7 +126,13 @@
     <div class="courses-header">
       <p class="section-label">Wszystkie kursy</p>
       <h1>Znajdź swój <span class="highlight">idealny kurs</span></h1>
-      <p>Ponad 200 kursów prowadzonych przez ekspertów z branży.</p>
+      <p>Kursy prowadzone przez ekspertów z branży.</p>
+    </div>
+
+    <div class="courses-search">
+      <span class="courses-search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Szukaj kursu..." oninput="szukajKursow()">
+      <button class="search-clear" id="searchClear" onclick="wyczyscSzukanie()">✕</button>
     </div>
 
     <div class="courses-filters">
@@ -50,135 +145,11 @@
       <button class="filter-btn" data-filter="data">Dane</button>
     </div>
 
-    <div class="courses-grid" id="coursesGrid">
-
-      <div class="offer-card" data-level="beginner" data-cat="programming" data-id="1">
-        <span class="tag tag-beginner">Początkujący</span>
-        <h3>HTML & CSS — od zera do bohatera</h3>
-        <p>Zbuduj swoją pierwszą stronę internetową bez wcześniejszej wiedzy.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 12h · 48 lekcji</span>
-          <span class="offer-price">149 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=1" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=1" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="beginner" data-cat="programming" data-id="2">
-        <span class="tag tag-beginner">Początkujący</span>
-        <h3>JavaScript — interaktywne strony</h3>
-        <p>Naucz się JavaScript od podstaw. Zmienne, funkcje, DOM i pierwsza aplikacja.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 18h · 72 lekcje</span>
-          <span class="offer-price">199 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=2" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=2" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="beginner" data-cat="data" data-id="3">
-        <span class="tag tag-beginner">Początkujący</span>
-        <h3>Python — pierwsze kroki</h3>
-        <p>Podstawy Pythona dla osób bez doświadczenia. Logika, pętle, funkcje.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 14h · 55 lekcji</span>
-          <span class="offer-price">179 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=3" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=3" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="mid" data-cat="programming" data-id="4">
-        <span class="tag tag-mid">Średni</span>
-        <h3>React.js — nowoczesny frontend</h3>
-        <p>Twórz dynamiczne aplikacje z najpopularniejszą biblioteką JavaScript.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 22h · 90 lekcji</span>
-          <span class="offer-price">299 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=4" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=1" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="mid" data-cat="data" data-id="5">
-        <span class="tag tag-mid">Średni</span>
-        <h3>Python — analiza danych</h3>
-        <p>Pandas, NumPy, matplotlib. Przetwarzaj dane jak profesjonalista.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 20h · 80 lekcji</span>
-          <span class="offer-price">249 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=5" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=3" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="mid" data-cat="design" data-id="6">
-        <span class="tag tag-mid">Średni</span>
-        <h3>UI/UX Design — podstawy</h3>
-        <p>Zasady projektowania, typografia, kolory i pierwsze projekty w Figmie.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 16h · 64 lekcje</span>
-          <span class="offer-price">229 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=6" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=1" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="adv" data-cat="programming" data-id="7">
-        <span class="tag tag-adv">Zaawansowany</span>
-        <h3>Node.js & REST API</h3>
-        <p>Buduj serwery i API od podstaw. Express, bazy danych, JWT i deployment.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 25h · 100 lekcji</span>
-          <span class="offer-price">349 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=7" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=2" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="adv" data-cat="design" data-id="8">
-        <span class="tag tag-adv">Zaawansowany</span>
-        <h3>UI/UX Design — Figma Pro</h3>
-        <p>Projektuj piękne interfejsy. Wireframing, prototypy i design system.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 16h · 64 lekcje</span>
-          <span class="offer-price">279 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=8" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=1" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
-      <div class="offer-card" data-level="adv" data-cat="data" data-id="9">
-        <span class="tag tag-adv">Zaawansowany</span>
-        <h3>Machine Learning z Pythonem</h3>
-        <p>Scikit-learn, TensorFlow, modele klasyfikacji i regresji od podstaw.</p>
-        <div class="offer-footer">
-          <span class="offer-meta">⏱ 30h · 120 lekcji</span>
-          <span class="offer-price">399 zł</span>
-        </div>
-        <div class="kurs-btns">
-          <a href="zakup.html?id=9" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
-          <a href="kurs.html?id=3" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>
-        </div>
-      </div>
-
+    <div class="courses-grid fade-in" id="coursesGrid">
+      <div style="color:var(--text-soft);font-size:0.9rem;padding:40px 0">Ładowanie kursów...</div>
     </div>
+
+    <div class="pagination" id="pagination"></div>
   </main>
 
   <footer>
@@ -186,90 +157,181 @@
       <div class="footer-bottom">© 2025 LearnUp. Projekt portfolio.</div>
     </div>
   </footer>
-<script src="js/api.js"></script>
-<script src="js/main.js"></script>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
   <script>
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.offer-card');
+    const KURSY_NA_STRONE = 9;
+    const tagMap = {
+      beginner: { klasa: 'tag-beginner', nazwa: 'Początkujący' },
+      mid:      { klasa: 'tag-mid',      nazwa: 'Średni' },
+      adv:      { klasa: 'tag-adv',      nazwa: 'Zaawansowany' }
+    };
 
-    filterBtns.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
+    let wszystkieKursy = [];
+    let przefiltrowane = [];
+    let zakupioneIds   = [];
+    let aktualnaStrona = 1;
 
-        cards.forEach(function(card) {
-          card.style.display = 'flex';
-          card.classList.remove('card-visible');
-          card.classList.add('card-hidden');
-        });
+    window.addEventListener('load', async function() {
+      try {
+        const res = await fetch('http://localhost:8000/api/kursy/');
+        if (res.ok) wszystkieKursy = await res.json();
+      } catch(e) {}
 
-        setTimeout(function() {
-          let widoczne = 0;
-          cards.forEach(function(card) {
-            let pasuje = false;
-            if (filter === 'all') {
-              pasuje = true;
-            } else if (['beginner','mid','adv'].includes(filter)) {
-              pasuje = card.getAttribute('data-level') === filter;
-            } else {
-              pasuje = card.getAttribute('data-cat') === filter;
-            }
-
-            if (pasuje) {
-              card.classList.remove('card-hidden');
-              setTimeout(function() {
-                card.classList.add('card-visible');
-              }, widoczne * 80);
-              widoczne++;
-            } else {
-              card.style.display = 'none';
-            }
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const res = await fetch('http://localhost:8000/api/zakupy/moje', {
+            headers: { 'Authorization': 'Bearer ' + token }
           });
-        }, 200);
-      });
+          if (res.ok) {
+            const zakupy = await res.json();
+            zakupioneIds = zakupy.map(function(z) { return z.kurs_id; });
+          }
+        } catch(e) {}
+      }
+
+      przefiltrowane = wszystkieKursy;
+      renderujStrone(1);
+      inicjalizujFiltry();
     });
 
-    window.addEventListener('load', function() {
-      cards.forEach(function(card, index) {
-        card.classList.add('card-hidden');
-        setTimeout(function() {
-          card.classList.remove('card-hidden');
-          card.classList.add('card-visible');
-        }, index * 80);
-      });
-    });
-  </script>
 
-  <script>
-window.addEventListener('load', async function() {
-  const token = localStorage.getItem('token');
-  if (!token) return;
+    function szukajKursow() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const clearBtn = document.getElementById('searchClear');
+      clearBtn.classList.toggle('visible', query.length > 0);
 
-  try {
-    const res = await fetch('http://localhost:8000/api/zakupy/moje', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    if (!res.ok) return;
-    const zakupy = await res.json();
-    const zakupioneIds = zakupy.map(function(z) { return z.kurs_id; });
+      const aktywnyFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+      let bazowe = wszystkieKursy;
 
-    document.querySelectorAll('.offer-card').forEach(function(card) {
-      const kursId = parseInt(card.getAttribute('data-id'));
-      if (zakupioneIds.includes(kursId)) {
-        const btns = card.querySelector('.kurs-btns');
-        if (btns) {
-          btns.innerHTML = `
-            <a href="kurs.html?id=${kursId}" class="btn-primary" style="font-size:0.85rem;padding:9px 16px;flex:1;text-align:center">
-              Przejdź do kursu →
-            </a>
-          `;
+      if (aktywnyFilter !== 'all') {
+        if (['beginner', 'mid', 'adv'].includes(aktywnyFilter)) {
+          bazowe = wszystkieKursy.filter(k => k.poziom === aktywnyFilter);
+        } else {
+          bazowe = wszystkieKursy.filter(k => k.kategoria === aktywnyFilter);
         }
       }
-    });
-  } catch(e) {}
-});
-</script>
 
+      if (query === '') {
+        przefiltrowane = bazowe;
+      } else {
+        przefiltrowane = bazowe.filter(k =>
+          k.nazwa.toLowerCase().includes(query) ||
+          k.opis.toLowerCase().includes(query)
+        );
+      }
+
+      renderujStrone(1);
+    }
+
+    function wyczyscSzukanie() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchClear').classList.remove('visible');
+      szukajKursow();
+    }
+
+
+    function renderujStrone(strona) {
+      aktualnaStrona = strona;
+      const start = (strona - 1) * KURSY_NA_STRONE;
+      const koniec = start + KURSY_NA_STRONE;
+      const kursyNaStronie = przefiltrowane.slice(start, koniec);
+      const grid = document.getElementById('coursesGrid');
+
+      grid.classList.remove('fade-in');
+      grid.classList.add('fade-out');
+
+      setTimeout(function() {
+        if (kursyNaStronie.length === 0) {
+          const query = document.getElementById('searchInput').value.trim();
+          grid.innerHTML = `<div style="color:var(--text-soft);font-size:0.9rem;padding:40px 0">
+            ${query ? '🔍 Nie znaleziono kursów dla "' + query + '"' : 'Brak kursów.'}
+          </div>`;
+        } else {
+          grid.innerHTML = kursyNaStronie.map(function(kurs) {
+            const tag = tagMap[kurs.poziom] || { klasa: 'tag-beginner', nazwa: kurs.poziom };
+            const zakupiony = zakupioneIds.includes(kurs.id);
+            const btns = zakupiony
+              ? `<a href="kurs.html?id=${kurs.id}" class="btn-primary" style="font-size:0.85rem;padding:9px 16px;flex:1;text-align:center">Przejdź do kursu →</a>`
+              : `<a href="zakup.html?id=${kurs.id}" class="btn-primary" style="font-size:0.85rem;padding:9px 16px">Kup kurs</a>
+                 <a href="kurs.html?id=${kurs.id}" class="btn-outline" style="font-size:0.85rem;padding:9px 16px">Podgląd →</a>`;
+
+            return `
+              <div class="offer-card card-hidden" data-level="${kurs.poziom}" data-cat="${kurs.kategoria}" data-id="${kurs.id}">
+                <span class="tag ${tag.klasa}">${tag.nazwa}</span>
+                <h3>${kurs.nazwa}</h3>
+                <p>${kurs.opis}</p>
+                <div class="offer-footer">
+                  <span class="offer-meta">⏱ ${kurs.czas_godz}h · ${kurs.liczba_lekc} lekcji</span>
+                  <span class="offer-price">${kurs.cena} zł</span>
+                </div>
+                <div class="kurs-btns">${btns}</div>
+              </div>
+            `;
+          }).join('');
+
+          grid.querySelectorAll('.offer-card').forEach(function(card, index) {
+            setTimeout(function() {
+              card.classList.remove('card-hidden');
+              card.classList.add('card-visible');
+            }, index * 60);
+          });
+        }
+
+        grid.classList.remove('fade-out');
+        grid.classList.add('fade-in');
+        renderujPaginacje();
+      }, 200);
+    }
+
+
+    function renderujPaginacje() {
+      const total = Math.ceil(przefiltrowane.length / KURSY_NA_STRONE);
+      const pagination = document.getElementById('pagination');
+
+      if (total <= 1) { pagination.innerHTML = ''; return; }
+
+      let html = `<button class="page-arrow" onclick="zmienaStrone(${aktualnaStrona - 1})" ${aktualnaStrona === 1 ? 'disabled' : ''}>←</button>`;
+      for (let i = 1; i <= total; i++) {
+        html += `<button class="page-btn ${i === aktualnaStrona ? 'active' : ''}" onclick="zmienaStrone(${i})">${i}</button>`;
+      }
+      html += `<button class="page-arrow" onclick="zmienaStrone(${aktualnaStrona + 1})" ${aktualnaStrona === total ? 'disabled' : ''}>→</button>`;
+      pagination.innerHTML = html;
+    }
+
+
+    function zmienaStrone(strona) {
+      const total = Math.ceil(przefiltrowane.length / KURSY_NA_STRONE);
+      if (strona < 1 || strona > total) return;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderujStrone(strona);
+    }
+
+
+    function inicjalizujFiltry() {
+      document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('searchInput').value = '';
+          document.getElementById('searchClear').classList.remove('visible');
+          const filter = btn.getAttribute('data-filter');
+
+          if (filter === 'all') {
+            przefiltrowane = wszystkieKursy;
+          } else if (['beginner', 'mid', 'adv'].includes(filter)) {
+            przefiltrowane = wszystkieKursy.filter(k => k.poziom === filter);
+          } else {
+            przefiltrowane = wszystkieKursy.filter(k => k.kategoria === filter);
+          }
+
+          renderujStrone(1);
+        });
+      });
+    }
+  </script>
+  <script src="js/chat.js"></script>
 </body>
 </html>
