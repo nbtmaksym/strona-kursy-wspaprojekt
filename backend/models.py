@@ -57,3 +57,42 @@ class Postep(Base):
     kurs_id    = Column(Integer, nullable=False)
     lekcja_id  = Column(Integer, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
+
+class Wiadomosc(Base):
+    __tablename__ = "wiadomosci"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=True)
+    imie       = Column(String, nullable=False)
+    email      = Column(String, nullable=False)
+    temat      = Column(String, nullable=False)
+    tresc      = Column(Text, nullable=False)
+    przeczytana = Column(Boolean, default=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+class Ocena(Base):
+    __tablename__ = "oceny"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=False)
+    kurs_id    = Column(Integer, ForeignKey("kursy.id"), nullable=False)
+    gwiazdki   = Column(Integer, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+class Kupon(Base):
+    __tablename__ = "kupony"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    kod        = Column(String, unique=True, nullable=False)
+    rabat      = Column(Integer, nullable=False)  # procent rabatu np. 20
+    aktywny    = Column(Boolean, default=True)
+    created_at = Column(DateTime, server_default=func.now())
+
+class Powiadomienie(Base):
+    __tablename__ = "powiadomienia"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=False)
+    tresc      = Column(String, nullable=False)
+    przeczytane = Column(Boolean, default=False)
+    created_at = Column(DateTime, server_default=func.now())

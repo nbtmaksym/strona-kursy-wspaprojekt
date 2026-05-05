@@ -104,3 +104,58 @@ def login(dane: schemas.UserLogin, db: Session = Depends(get_db)):
 def get_me(current_user=Depends(auth_utils.get_current_user)):
     """Zwraca dane zalogowanego użytkownika"""
     return current_user
+
+@router.post("/reset-request")
+def reset_request(dane: schemas.EmailOnly, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(
+        models.User.email == dane.email
+    ).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Nie znaleziono konta z tym emailem")
+
+    db.query(models.VerificationCode).filter(
+        models.VerificationCode.user_id == user.id
+    ).delete()
+
+    kod = str(random.randint(100000, 999999))
+    verification = models.VerificationCode(
+        user_id = user.id,
+        kod     = kod
+    )
+    db.add(verification)
+    db.commit()
+
+    return {
+        "message": "Kod resetu wygenerowany",
+        "email":   user.email,
+        "name":    user.name,
+        "kod":     kod
+    }
+
+
+@router.post("/reset-password")
+def reset_password(dane: schemas.ResetPassword, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(
+        models.User.email == dane.email
+    ).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Użytkownik nie istnieje")
+
+    verification = db.query(models.VerificationCode).filter(
+        models.VerificationCode.user_id == user.id,
+        models.VerificationCode.kod     == dane.kod
+    ).first()
+
+    if not verification:
+        raise HTTPException(status_code=400, detail="Nieprawidłowy kod")
+
+    if len(dane.new_password) < 8:
+        raise HTTPException(status_code=400, detail="Hasło musi mieć minimum 8 znaków")
+
+    user.password_hash = auth_utils.hash_password(dane.new_password)
+    db.delete(verification)
+    db.commit()
+
+    return {"message": "Hasło zostało zmienione"}

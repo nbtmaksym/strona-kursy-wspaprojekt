@@ -3,7 +3,6 @@ from typing import Optional
 from datetime import datetime
 
 
-
 class UserCreate(BaseModel):
     name:     str
     email:    EmailStr
@@ -27,7 +26,6 @@ class UserOut(BaseModel):
 class VerifyCode(BaseModel):
     email: EmailStr
     kod:   str
-
 
 class KursCreate(BaseModel):
     nazwa:       str
@@ -85,3 +83,11 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+class EmailOnly(BaseModel):
+    email: EmailStr
+
+class ResetPassword(BaseModel):
+    email:        EmailStr
+    kod:          str
+    new_password: str
